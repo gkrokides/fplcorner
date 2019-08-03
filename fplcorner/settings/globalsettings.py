@@ -1,0 +1,1 @@
+api_url = "https://fantasy.premierleague.com/api/bootstrap-static/"
