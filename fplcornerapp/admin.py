@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import Fpldata
+from .models import Season
 
 # Register your models here.
 
-admin.site.register(Fpldata)
+admin.site.register(Season)
