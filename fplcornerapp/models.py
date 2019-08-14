@@ -15,8 +15,6 @@ class Season(models.Model):
 
 
 class Team(models.Model):
-    name = models.CharField(max_length=50, unique=True)
-    is_current = models.BooleanField(default=False)
     loss = models.IntegerField(null=True, blank=True)
     draw = models.IntegerField(null=True, blank=True)
     code = models.IntegerField(null=True, blank=True)
@@ -41,6 +39,20 @@ class Team(models.Model):
         return str(self.name)
 
 
+class Player_Type(models.Model):
+    squad_min_play = models.IntegerField(null=True, blank=True)
+    plural_name = models.CharField(max_length=30)
+    squad_max_play = models.IntegerField(null=True, blank=True)
+    singular_name = models.CharField(max_length=30)
+    squad_select = models.IntegerField(null=True, blank=True)
+    plural_name_short = models.CharField(max_length=30)
+    singular_name_short = models.CharField(max_length=30)
+    id = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.singular_name)
+
+
 class Player(models.Model):
     transfers_out = models.IntegerField(null=True, blank=True)
     yellow_cards = models.IntegerField(null=True, blank=True)
@@ -54,7 +66,7 @@ class Player(models.Model):
     web_name = models.CharField(max_length=100)
     value_season = models.FloatField(null=True, blank=True)
     in_dreamteam = models.BooleanField(default=False)
-    team_code = models.IntegerField(null=True, blank=True)
+    team_code = models.ForeignKey('Team', blank=True, null=True)
     id = models.IntegerField(null=True, blank=True)
     first_name = models.CharField(max_length=100)
     transfers_out_event = models.IntegerField(null=True, blank=True)
@@ -82,7 +94,7 @@ class Player(models.Model):
     red_cards = models.IntegerField(null=True, blank=True)
     transfers_in_event = models.IntegerField(null=True, blank=True)
     bps = models.FloatField(null=True, blank=True)
-    element_type: 2
+    element_type = models.ForeignKey('Player_Type', blank=True, null=True)
     cost_change_event = models.FloatField(null=True, blank=True)
     threat = models.FloatField(null=True, blank=True)
     team = models.IntegerField(null=True, blank=True)
@@ -93,3 +105,13 @@ class Player(models.Model):
 
     def __str__(self):
         return str(self.web_name)
+
+
+class Event(models.Model):
+    name = models.CharField(max_length=50)
+    finished = models.BooleanField(default=False)
+    is_current = models.BooleanField(default=False)
+    id = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return str(self.name)
