@@ -5,7 +5,7 @@ from fplcorner.settings import globalsettings
 
 def fpl_data_all():
 
-    requestString = globalsettings.api_url
+    requestString = globalsettings.API_URL
 
     response = requests.get(requestString)
     smData = response.json()

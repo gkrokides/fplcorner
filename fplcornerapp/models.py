@@ -115,3 +115,165 @@ class Event(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+
+class Fixture(models.Model):
+    kickoff_time = models.DateTimeField()
+    team_h_difficulty = models.IntegerField(null=True, blank=True)
+    started = models.BooleanField(default=False)
+    finished_provisional = models.BooleanField(default=False)
+    team_a_difficulty = models.IntegerField(null=True, blank=True)
+    id = models.IntegerField(null=True, blank=True)
+    finished = models.BooleanField(default=False)
+    code = models.IntegerField(null=True, blank=True)
+    team_a_score = models.IntegerField(null=True, blank=True)
+    team_a = models.ForeignKey(Team, related_name='awayteam')
+    team_h_score = models.IntegerField(null=True, blank=True)
+    minutes = models.IntegerField(null=True, blank=True)
+    event = models.ForeignKey('Event', blank=True, null=True)
+    provisional_start_time = models.BooleanField(default=False)
+    team_h = models.ForeignKey(Team, related_name='hometeam')
+
+    def __str__(self):
+        return str(self.kickoff_time)
+
+
+# FIXTURE STATS
+class Goals_Scored(models.Model):
+    fixture = models.ForeignKey('Fixture', blank=True, null=True)
+    player = models.ForeignKey('Player', blank=True, null=True)
+    value = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["fixture"]
+        verbose_name = "Goals_Scored"
+        verbose_name_plural = "Goals_Scored"
+
+    def __str__(self):
+        return str(self.fixture)
+
+
+class Assists(models.Model):
+    fixture = models.ForeignKey('Fixture', blank=True, null=True)
+    player = models.ForeignKey('Player', blank=True, null=True)
+    value = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["fixture"]
+        verbose_name = "Assists"
+        verbose_name_plural = "Assists"
+
+    def __str__(self):
+        return str(self.fixture)
+
+
+class Own_Goals(models.Model):
+    fixture = models.ForeignKey('Fixture', blank=True, null=True)
+    player = models.ForeignKey('Player', blank=True, null=True)
+    value = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["fixture"]
+        verbose_name = "Own_Goals"
+        verbose_name_plural = "Own_Goals"
+
+    def __str__(self):
+        return str(self.fixture)
+
+
+class Penalties_Saved(models.Model):
+    fixture = models.ForeignKey('Fixture', blank=True, null=True)
+    player = models.ForeignKey('Player', blank=True, null=True)
+    value = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["fixture"]
+        verbose_name = "Penalties_Saved"
+        verbose_name_plural = "Penalties_Saved"
+
+    def __str__(self):
+        return str(self.fixture)
+
+
+class Penalties_Missed(models.Model):
+    fixture = models.ForeignKey('Fixture', blank=True, null=True)
+    player = models.ForeignKey('Player', blank=True, null=True)
+    value = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["fixture"]
+        verbose_name = "Penalties_Missed"
+        verbose_name_plural = "Penalties_Missed"
+
+    def __str__(self):
+        return str(self.fixture)
+
+
+class Yellow_Cards(models.Model):
+    fixture = models.ForeignKey('Fixture', blank=True, null=True)
+    player = models.ForeignKey('Player', blank=True, null=True)
+    value = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["fixture"]
+        verbose_name = "Yellow_Cards"
+        verbose_name_plural = "Yellow_Cards"
+
+    def __str__(self):
+        return str(self.fixture)
+
+
+class Red_Cards(models.Model):
+    fixture = models.ForeignKey('Fixture', blank=True, null=True)
+    player = models.ForeignKey('Player', blank=True, null=True)
+    value = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["fixture"]
+        verbose_name = "Red_Cards"
+        verbose_name_plural = "Red_Cards"
+
+    def __str__(self):
+        return str(self.fixture)
+
+
+class Saves(models.Model):
+    fixture = models.ForeignKey('Fixture', blank=True, null=True)
+    player = models.ForeignKey('Player', blank=True, null=True)
+    value = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["fixture"]
+        verbose_name = "Saves"
+        verbose_name_plural = "Saves"
+
+    def __str__(self):
+        return str(self.fixture)
+
+
+class Bonus(models.Model):
+    fixture = models.ForeignKey('Fixture', blank=True, null=True)
+    player = models.ForeignKey('Player', blank=True, null=True)
+    value = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["fixture"]
+        verbose_name = "Bonus"
+        verbose_name_plural = "Bonus"
+
+    def __str__(self):
+        return str(self.fixture)
+
+
+class BPS(models.Model):
+    fixture = models.ForeignKey('Fixture', blank=True, null=True)
+    player = models.ForeignKey('Player', blank=True, null=True)
+    value = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["fixture"]
+        verbose_name = "BPS"
+        verbose_name_plural = "BPS"
+
+    def __str__(self):
+        return str(self.fixture)

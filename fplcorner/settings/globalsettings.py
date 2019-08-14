@@ -1,2 +1,2 @@
-api_url = "https://fantasy.premierleague.com/api/bootstrap-static/"
-api_fixtures = "https://fantasy.premierleague.com/api/fixtures/"
+API_URL = "https://fantasy.premierleague.com/api/bootstrap-static/"
+API_FIXTURES = "https://fantasy.premierleague.com/api/fixtures/"
