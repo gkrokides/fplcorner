@@ -42,8 +42,10 @@ smData = response.json()
 dataJson = json.dumps(smData, sort_keys=True, indent=4)
 fpl_data = json.loads(dataJson)
 
-for item in fpl_data[0]["stats"]:
-    print item
+print dataJson
+
+# for item in fpl_data[0]["stats"]:
+#     print item
 
 # for item in fpl_data["stats"][0]:
 #     print item + ": " + str(fpl_data["stats"][0][item])
