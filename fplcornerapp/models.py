@@ -32,7 +32,7 @@ class Team(models.Model):
     position = models.IntegerField(null=True, blank=True)
     strength = models.IntegerField(null=True, blank=True)
     strength_attack_home = models.FloatField(null=True, blank=True)
-    id = models.IntegerField(null=True, blank=True)
+    team_id = models.IntegerField(null=True, blank=True)  # fpl name 'id'
     unavailable = models.BooleanField(default=False)
 
     def __str__(self):
@@ -47,7 +47,7 @@ class Player_Type(models.Model):
     squad_select = models.IntegerField(null=True, blank=True)
     plural_name_short = models.CharField(max_length=30)
     singular_name_short = models.CharField(max_length=30)
-    id = models.IntegerField(null=True, blank=True)
+    player_type_id = models.IntegerField(null=True, blank=True)  # fpl name 'id'
 
     def __str__(self):
         return str(self.singular_name)
@@ -67,7 +67,7 @@ class Player(models.Model):
     value_season = models.FloatField(null=True, blank=True)
     in_dreamteam = models.BooleanField(default=False)
     team_code = models.ForeignKey('Team', blank=True, null=True)
-    id = models.IntegerField(null=True, blank=True)
+    player_id = models.IntegerField(null=True, blank=True)  # fpl name 'id'
     first_name = models.CharField(max_length=100)
     transfers_out_event = models.IntegerField(null=True, blank=True)
     chance_of_playing_next_round = models.FloatField(null=True, blank=True)
@@ -111,7 +111,7 @@ class Event(models.Model):
     name = models.CharField(max_length=50)
     finished = models.BooleanField(default=False)
     is_current = models.BooleanField(default=False)
-    id = models.IntegerField(null=True, blank=True)
+    event_id = models.IntegerField(null=True, blank=True)  # fpl name 'id'
 
     def __str__(self):
         return str(self.name)
@@ -123,7 +123,7 @@ class Fixture(models.Model):
     started = models.BooleanField(default=False)
     finished_provisional = models.BooleanField(default=False)
     team_a_difficulty = models.IntegerField(null=True, blank=True)
-    id = models.IntegerField(null=True, blank=True)
+    fixture_id = models.IntegerField(null=True, blank=True)  # fpl name 'id'
     finished = models.BooleanField(default=False)
     code = models.IntegerField(null=True, blank=True)
     team_a_score = models.IntegerField(null=True, blank=True)

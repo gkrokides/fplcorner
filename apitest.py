@@ -8,8 +8,8 @@ from fplcorner.settings import globalsettings
 # game_settings
 # teams #TABLE CREATED
 # element_types #TABLE CREATED
-# element_stats
-# events
+# element_stats #TABLES CREATED (created one for each stat as it optimizes the db)
+# events #TABLE CREATED
 # elements #TABLE CREATED
 
 # api_fixtures json breakdown
