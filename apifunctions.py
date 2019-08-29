@@ -2,9 +2,8 @@ import requests
 import json
 from fplcorner.settings import globalsettings
 
+
 # get all data from the fpl api
-
-
 def fpl_data_all():
 
     requestString = globalsettings.API_URL

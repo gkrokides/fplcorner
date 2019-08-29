@@ -1,0 +1,10 @@
+HOW TO UPDATE NEW SEASON DATA
+
+1. Create the Season.
+This has to be done manually. It's a two-step process
+	1. Create the new season and mark it as current
+	2. Open the previous season and un-mark it as current
+
+2. Update the teams.
+"python manage.py update_teams"
+* A lot of information is not included this year (i.e played, points, wins, losses e.t.c) but these fields are included in the db in case they start reporting them.
