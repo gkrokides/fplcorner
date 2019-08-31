@@ -1,4 +1,4 @@
-HOW TO UPDATE NEW SEASON DATA
+HOW TO UPDATE NEW SEASON DATA (You run these once. After that you follow the steps for updating the gameweek)
 
 1. Create the Season.
 This has to be done manually. It's a two-step process
@@ -8,3 +8,9 @@ This has to be done manually. It's a two-step process
 2. Update the teams.
 "python manage.py update_teams"
 * A lot of information is not included this year (i.e played, points, wins, losses e.t.c) but these fields are included in the db in case they start reporting them.
+
+3. Update the Player Types.
+"python manage.py update_player_types"
+
+4. Update the events (gameweeks).
+"python manage.py update_events"

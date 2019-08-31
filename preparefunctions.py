@@ -29,3 +29,37 @@ def prepare_team_data():
         })
 
     return final_data
+
+
+def prepare_player_type_data():
+    all_player_type_data = fpl_data_all()["element_types"]
+    final_data = []
+
+    for player_type in all_player_type_data:
+        final_data.append({
+            'player_type_id': player_type['id'],
+            'singular_name': player_type['singular_name'],
+            'plural_name': player_type['plural_name'],
+            'squad_min_play': player_type['squad_min_play'],
+            'squad_max_play': player_type['squad_max_play'],
+            'squad_select': player_type['squad_select'],
+            'plural_name_short': player_type['plural_name_short'],
+            'singular_name_short': player_type['singular_name_short'],
+        })
+
+    return final_data
+
+
+def prepare_event_data():
+    all_event_data = fpl_data_all()["events"]
+    final_data = []
+
+    for event in all_event_data:
+        final_data.append({
+            'event_id': event['id'],
+            'name': event['name'],
+            'finished': event['finished'],
+            'is_current': event['is_current'],
+        })
+
+    return final_data
