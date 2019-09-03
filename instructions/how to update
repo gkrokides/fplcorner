@@ -5,12 +5,18 @@ This has to be done manually. It's a two-step process
 	1. Create the new season and mark it as current
 	2. Open the previous season and un-mark it as current
 
-2. Update the teams.
+2. Update the Team model.
 "python manage.py update_teams"
 * A lot of information is not included this year (i.e played, points, wins, losses e.t.c) but these fields are included in the db in case they start reporting them.
 
-3. Update the Player Types.
+3. Update the Player Types model.
 "python manage.py update_player_types"
 
-4. Update the events (gameweeks).
+4. Update the Event model (gameweeks).
 "python manage.py update_events"
+
+5. Update the Player model.
+"python manage.py update_players"
+
+6. Update the Fixture model.
+"python manage.py update_fixtures"

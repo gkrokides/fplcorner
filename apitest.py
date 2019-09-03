@@ -33,8 +33,8 @@ from fplcorner.settings import globalsettings
 # identifier, so 4 saves for element(player) 180 who belongs to the away team hence 'a'.
 # This should be a different table having fixture id as the foreign key.
 
-requestString = globalsettings.API_URL
-# requestString = globalsettings.API_FIXTURES
+# requestString = globalsettings.API_URL
+requestString = globalsettings.API_FIXTURES
 
 
 response = requests.get(requestString)
@@ -42,11 +42,11 @@ smData = response.json()
 dataJson = json.dumps(smData, sort_keys=True, indent=4)
 fpl_data = json.loads(dataJson)
 
-for x in fpl_data['elements']:
-    print x['id']
-
-# for x in fpl_data['elements'][0]:
-#     print x
+# for x in fpl_data['elements']:
+#     print x['id']
+# print fpl_data[0]
+for x in fpl_data[0]:
+    print x
 
 # print fpl_data['elements'][0]
 
