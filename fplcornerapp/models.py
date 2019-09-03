@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
 from django.db import models
+
+import six
+from six import python_2_unicode_compatible
 # from django.utils import timezone
 
 # Create your models here.
@@ -54,6 +57,7 @@ class Player_Type(models.Model):
         return str(self.singular_name)
 
 
+@python_2_unicode_compatible
 class Player(models.Model):
     # General info
     player_id = models.IntegerField(null=True, blank=True)  # fpl name 'id'
@@ -103,8 +107,11 @@ class Player(models.Model):
     cost_change_start_fall = models.FloatField(null=True, blank=True)
     cost_change_event = models.FloatField(null=True, blank=True)
 
+    # def __str__(self):
+    #     return str(self.web_name)
+
     def __str__(self):
-        return str(self.web_name)
+        return "{0} {1}".format(self.first_name, self.second_name)
 
 
 class Event(models.Model):
