@@ -124,6 +124,24 @@ class Event(models.Model):
         return str(self.name)
 
 
+class FixtureManager(models.Manager):
+    # Returns a set of all players related to the given fixture
+    def get_players(self, fixture):
+        fxtr = self.get(code=fixture)
+        team_h = fxtr.team_h.pk
+        team_a = fxtr.team_a.pk
+        final_list = []
+        home_players = Player.objects.filter(team_code__pk=team_h)
+        away_players = Player.objects.filter(team_code__pk=team_a)
+        final_list.append(home_players)
+        final_list.append(away_players)
+        return final_list
+
+    def get_current_gameweek_fixtures(self):
+        current_matches = self.filter(event__is_current=True)
+        return current_matches
+
+
 class Fixture(models.Model):
     fixture_id = models.IntegerField(null=True, blank=True)  # fpl name 'id'
     code = models.IntegerField(null=True, blank=True)
@@ -138,6 +156,7 @@ class Fixture(models.Model):
     team_a_difficulty = models.IntegerField(null=True, blank=True)
     team_a_score = models.IntegerField(null=True, blank=True)
     team_h_score = models.IntegerField(null=True, blank=True)
+    objects = FixtureManager()
 
     def __str__(self):
         return str(self.kickoff_time)
@@ -145,19 +164,52 @@ class Fixture(models.Model):
 
 # FIXTURE STATS
 
-class Fixture_Stat(models.Model):
-    stat_name = models.CharField(max_length=100)
+class Player_Fixture_Stat(models.Model):
     fixture = models.ForeignKey('Fixture', blank=True, null=True)
     player = models.ForeignKey('Player', blank=True, null=True)
     value = models.IntegerField(null=True, blank=True)
+    now_cost = models.FloatField(null=True, blank=True)
+    total_points = models.IntegerField(null=True, blank=True)
+    points_per_game = models.FloatField(null=True, blank=True)
+    bonus = models.IntegerField(null=True, blank=True)
+    bps = models.FloatField(null=True, blank=True)
+    minutes = models.FloatField(null=True, blank=True)
+    goals_scored = models.IntegerField(null=True, blank=True)
+    assists = models.IntegerField(null=True, blank=True)
+    goals_conceded = models.IntegerField(null=True, blank=True)
+    clean_sheets = models.IntegerField(null=True, blank=True)
+    saves = models.IntegerField(null=True, blank=True)
+    yellow_cards = models.IntegerField(null=True, blank=True)
+    red_cards = models.IntegerField(null=True, blank=True)
+    form = models.FloatField(null=True, blank=True)
+    value_form = models.FloatField(null=True, blank=True)
+    value_season = models.FloatField(null=True, blank=True)
+    ep_this = models.FloatField(null=True, blank=True)
+    ep_next = models.FloatField(null=True, blank=True)
+    influence = models.FloatField(null=True, blank=True)
+    creativity = models.FloatField(null=True, blank=True)
+    threat = models.FloatField(null=True, blank=True)
+    ict_index = models.FloatField(null=True, blank=True)
+    selected_by_percent = models.FloatField(null=True, blank=True)
+    transfers_in = models.IntegerField(null=True, blank=True)
+    transfers_out = models.IntegerField(null=True, blank=True)
+    transfers_in_event = models.IntegerField(null=True, blank=True)
+    transfers_out_event = models.IntegerField(null=True, blank=True)
+    cost_change_start = models.FloatField(null=True, blank=True)
+    cost_change_event_fall = models.FloatField(null=True, blank=True)
+    cost_change_start_fall = models.FloatField(null=True, blank=True)
+    cost_change_event = models.FloatField(null=True, blank=True)
 
     class Meta:
         ordering = ["fixture"]
-        verbose_name = "Fixture_Stat"
-        verbose_name_plural = "Fixture_Stats"
+        verbose_name = "Player Fixture_Stat"
+        verbose_name_plural = "Player Fixture_Stats"
+
+    # def __str__(self):
+    #     return str(self.fixture)
 
     def __str__(self):
-        return str(self.fixture)
+        return "{0} {1} {2}".format(self.player.first_name, self.player.second_name, self.fixture.kickoff_time)
 
 # class Goals_Scored(models.Model):
 #     fixture = models.ForeignKey('Fixture', blank=True, null=True)

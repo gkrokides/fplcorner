@@ -152,3 +152,88 @@ def prepare_fixture_data():
         })
 
     return final_data
+
+
+def prepare_fixture_stats_data():
+    all_fixtures = fpl_fixtures()
+    current_event_id = current_event()
+    final_data = []
+    for fixture in all_fixtures:
+        if fixture['event'] == current_event_id:
+            f_object = Fixture.objects.get(code=fixture['code'])
+            fcode = f_object.code
+            fixture_players = Fixture.objects.get_players(fcode)
+            for player in fixture_players[0]:
+                final_data.append({
+                    'fixture': f_object,
+                    'player': player,
+                    'now_cost': player.now_cost,
+                    'total_points': player.total_points,
+                    'points_per_game': player.points_per_game,
+                    'bonus': player.bonus,
+                    'bps': player.bps,
+                    'minutes': player.minutes,
+                    'goals_scored': player.goals_scored,
+                    'assists': player.assists,
+                    'goals_conceded': player.goals_conceded,
+                    'clean_sheets': player.clean_sheets,
+                    'saves': player.saves,
+                    'yellow_cards': player.yellow_cards,
+                    'red_cards': player.red_cards,
+                    'form': player.form,
+                    'value_form': player.value_form,
+                    'value_season': player.value_season,
+                    'ep_this': player.ep_this,
+                    'ep_next': player.ep_next,
+                    'influence': player.influence,
+                    'creativity': player.creativity,
+                    'threat': player.threat,
+                    'ict_index': player.ict_index,
+                    'selected_by_percent': player.selected_by_percent,
+                    'transfers_in': player.transfers_in,
+                    'transfers_out': player.transfers_out,
+                    'transfers_in_event': player.transfers_in_event,
+                    'transfers_out_event': player.transfers_out_event,
+                    'cost_change_start': player.cost_change_start,
+                    'cost_change_event_fall': player.cost_change_event_fall,
+                    'cost_change_start_fall': player.cost_change_start_fall,
+                    'cost_change_event': player.cost_change_event
+                })
+
+            for player in fixture_players[1]:
+                final_data.append({
+                    'fixture': f_object,
+                    'player': player,
+                    'now_cost': player.now_cost,
+                    'total_points': player.total_points,
+                    'points_per_game': player.points_per_game,
+                    'bonus': player.bonus,
+                    'bps': player.bps,
+                    'minutes': player.minutes,
+                    'goals_scored': player.goals_scored,
+                    'assists': player.assists,
+                    'goals_conceded': player.goals_conceded,
+                    'clean_sheets': player.clean_sheets,
+                    'saves': player.saves,
+                    'yellow_cards': player.yellow_cards,
+                    'red_cards': player.red_cards,
+                    'form': player.form,
+                    'value_form': player.value_form,
+                    'value_season': player.value_season,
+                    'ep_this': player.ep_this,
+                    'ep_next': player.ep_next,
+                    'influence': player.influence,
+                    'creativity': player.creativity,
+                    'threat': player.threat,
+                    'ict_index': player.ict_index,
+                    'selected_by_percent': player.selected_by_percent,
+                    'transfers_in': player.transfers_in,
+                    'transfers_out': player.transfers_out,
+                    'transfers_in_event': player.transfers_in_event,
+                    'transfers_out_event': player.transfers_out_event,
+                    'cost_change_start': player.cost_change_start,
+                    'cost_change_event_fall': player.cost_change_event_fall,
+                    'cost_change_start_fall': player.cost_change_start_fall,
+                    'cost_change_event': player.cost_change_event
+                })
+    return final_data

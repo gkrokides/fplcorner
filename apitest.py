@@ -1,6 +1,7 @@
 import requests
 import json
 from fplcorner.settings import globalsettings
+from apifunctions import *
 
 # api_url json breakdown
 # total_players
@@ -42,41 +43,12 @@ smData = response.json()
 dataJson = json.dumps(smData, sort_keys=True, indent=4)
 fpl_data = json.loads(dataJson)
 
-# for x in fpl_data['elements']:
-#     print x['id']
-# print fpl_data[0]
-for x in fpl_data[0]:
-    print x
+for x in fpl_data:
+    print x['event']
 
-# print fpl_data['elements'][0]
 
-# for x in fpl_data['teams']:
-#     print x['id']
-
-# for x in fpl_data["events"][1]:
+# for x in fpl_data['events']:
 #     print x
-
-# print fpl_data["teams"][0]
-
-# print dataJson
-
-# for item in fpl_data[0]["stats"]:
-#     print item
-
-# for item in fpl_data["stats"][0]:
-#     print item + ": " + str(fpl_data["stats"][0][item])
-
-# for item in fpl_data["element_stats"][0]:
-#     print item + ": " + str(fpl_data["element_stats"][0][item])
-
-# for item in fpl_data["element_types"][0]:
-#     print item
-
-# for item in x:
-#     print item["identifier"]
-# for item in fpl_data:
-#     print item["stats"]
-
-# print fpl_data["teams"]
-# for item in fpl_data["teams"][0]:
-#     print item
+# all_fixtures = fpl_fixtures()
+# for f in all_fixtures:
+#     print f['code']

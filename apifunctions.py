@@ -58,3 +58,23 @@ def gameweek_stats(stat_name, gameweek):
         return 0
     else:
         return stats_final
+
+
+# get the id of the current event (event_id)
+def current_event():
+    all_fixtures = fpl_data_all()
+    event_id = 0
+    for x in all_fixtures['events']:
+        if x['is_current']:
+            event_id = x['id']
+    return event_id
+
+
+# get the id of the current event (event_id)
+def previous_event():
+    all_fixtures = fpl_data_all()
+    event_id = 0
+    for x in all_fixtures['events']:
+        if x['is_previous']:
+            event_id = x['id']
+    return event_id
