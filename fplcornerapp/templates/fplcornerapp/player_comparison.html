@@ -2,13 +2,20 @@
 
 {% block head %}
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>	
-	
+
 	
 {% endblock %}
 
 {% block content %}
       
-      <select class="selectpicker" data-live-search="true" name="player1" id="plrone" onChange="getPlayerOne(); generateComparison();">
+      <select class="selectpicker" data-live-search="true" name="player1" id="plrone" onChange="generateComparison();">
+          {# <option value="All" disabled selected>Player 1</option> #}
+          {% for p in graph_data %}
+            <option value="{{ p.player_id }}">{{ p.first_name }} {{ p.last_name }}</option>
+          {% endfor %}{% csrf_token %}
+      </select>
+
+      <select class="selectpicker" data-live-search="true" name="player2" id="plrtwo" onChange="generateComparison();">
           {# <option value="All" disabled selected>Player 1</option> #}
           {% for p in graph_data %}
             <option value="{{ p.player_id }}">{{ p.first_name }} {{ p.last_name }}</option>
@@ -24,17 +31,14 @@
         }
     </script>
 
-    // <script type="text/javascript">
-    //     function getPlayerOneData() {
-    //         for (i in allData) {
-    //             if (i['web_name'] == playerOne) {
-    //                 return i;
-    //              }
-    //       }
-    //     }  
-    // </script>
+    <script type="text/javascript">
+        function getPlayerTwo(){
+            val = document.getElementById("plrtwo").value;
+            return val;
+        }
+    </script>
 
-    // <script type="text/javascript">
+    <script type="text/javascript">
         function getPlayerOneData() {
             var allData = {{ graph_data_json|safe }};
             var allDataLength = allData.length;
@@ -42,115 +46,75 @@
                 if (allData[i]["player_id"] == getPlayerOne()) {
                     return allData[i];
                 }
-                // console.log(allData[i]);
-                //Do something
             }
-
-          //   var allData = {{ graph_data_json|safe }};
-          //   for (i in allData) {
-          //       if (allData[i]['player_id'] == getPlayerOne()) {
-          //           return allData[i];
-          //           console.log(allData[i]['player_id']);
-          //        }
-          // }
         }  
-    // </script>
-	
+    </script>
+
     <script type="text/javascript">
-		var playerOneId = getPlayerOne();
-        var allData = {{ graph_data_json|safe }};
-		var playerOneSelection = getPlayerOneData();
-		var gdata = {{ test_data_json|safe }};
-		new Chart(document.getElementById("comparison"), {
-	    type: 'radar',
-	    data: {
-	      labels: ["Points", "Goals", "Threat", "Influence", "Creativity", "Assists"],
-	      datasets: [
-	        {
-	          label: playerOneSelection["web_name"],
-	          fill: true,
-	          backgroundColor: "rgba(41, 73, 233, 0.21)",
-	          borderColor: "rgb(41, 73, 233)",
-	          pointBorderColor: "#fff",
-	          pointBackgroundColor: "rgba(179,181,198,1)",
-	          // data: [8.77,55.61,21.69,6.62,6.82,9]
-	          // data: gdata[1]['data']
-	          data: playerOneSelection["data"]
-	        }, {
-	          label: gdata[0]['web_name'],
-	          fill: true,
-	          backgroundColor: "rgba(255,99,132,0.2)",
-	          borderColor: "rgba(255,99,132,1)",
-	          pointBorderColor: "#fff",
-	          pointBackgroundColor: "rgba(255,99,132,1)",
-	          pointBorderColor: "#fff",
-	          // data: [25.48,54.16,7.61,8.06,4.45,6]
-	          data: gdata[0]['data']
-	        }
-	      ]
-	    },
-	    options: {
-	      title: {
-	        display: false,
-	        text: 'Player Comparison'
-	      },
-	      scale: {
-         ticks: {
-            display: false,
-            maxTicksLimit: 5
-         }
-      }
-	    }
-	});
-	</script>
+        function getPlayerTwoData() {
+            var allData = {{ graph_data_json|safe }};
+            var allDataLength = allData.length;
+            for (var i = 0; i < allDataLength; i++) {
+                if (allData[i]["player_id"] == getPlayerTwo()) {
+                    return allData[i];
+                }
+            }
+        }  
+    </script>
 
     <script type="text/javascript">
         function generateComparison(){
-        var playerOneId = getPlayerOne();
-        var allData = {{ graph_data_json|safe }};
-        var playerOneSelection = getPlayerOneData();
-        var gdata = {{ test_data_json|safe }};
-        new Chart(document.getElementById("comparison"), {
-        type: 'radar',
-        data: {
-          labels: ["Points", "Goals", "Threat", "Influence", "Creativity", "Assists"],
-          datasets: [
-            {
-              label: playerOneSelection["web_name"],
-              fill: true,
-              backgroundColor: "rgba(41, 73, 233, 0.21)",
-              borderColor: "rgb(41, 73, 233)",
-              pointBorderColor: "#fff",
-              pointBackgroundColor: "rgba(179,181,198,1)",
-              // data: [8.77,55.61,21.69,6.62,6.82,9]
-              // data: gdata[1]['data']
-              data: playerOneSelection["data"]
-            }, {
-              label: gdata[0]['web_name'],
-              fill: true,
-              backgroundColor: "rgba(255,99,132,0.2)",
-              borderColor: "rgba(255,99,132,1)",
-              pointBorderColor: "#fff",
-              pointBackgroundColor: "rgba(255,99,132,1)",
-              pointBorderColor: "#fff",
-              // data: [25.48,54.16,7.61,8.06,4.45,6]
-              data: gdata[0]['data']
+            if (typeof myRadarChart != 'undefined') {
+                myRadarChart.destroy();
             }
-          ]
-        },
-        options: {
-          title: {
-            display: false,
-            text: 'Player Comparison'
-          },
-          scale: {
-         ticks: {
-            display: false,
-            maxTicksLimit: 5
-         }
-      }
-        }
-    });
+            var playerOneId = getPlayerOne();
+            var playerTwoId = getPlayerTwo();
+            var allData = {{ graph_data_json|safe }};
+            var playerOneSelection = getPlayerOneData();
+            var playerTwoSelection = getPlayerTwoData();
+            var gdata = {{ test_data_json|safe }};
+            myRadarChart = new Chart(document.getElementById("comparison"), {
+            type: 'radar',
+            data: {
+                labels: ["Points", "Goals", "Threat", "Influence", "Creativity", "Assists"],
+                datasets: [
+                {
+                  label: playerOneSelection["web_name"],
+                  fill: true,
+                  backgroundColor: "rgba(41, 73, 233, 0.21)",
+                  borderColor: "rgb(41, 73, 233)",
+                  pointBorderColor: "#fff",
+                  pointBackgroundColor: "rgba(179,181,198,1)",
+                  // data: [8.77,55.61,21.69,6.62,6.82,9]
+                  // data: gdata[1]['data']
+                  data: playerOneSelection["data"]
+                }, {
+                  label: playerTwoSelection["web_name"],
+                  fill: true,
+                  backgroundColor: "rgba(255,99,132,0.2)",
+                  borderColor: "rgba(255,99,132,1)",
+                  pointBorderColor: "#fff",
+                  pointBackgroundColor: "rgba(255,99,132,1)",
+                  pointBorderColor: "#fff",
+                  // data: [25.48,54.16,7.61,8.06,4.45,6]
+                  data: playerTwoSelection['data']
+                }
+                ]
+            },
+            options: {
+              title: {
+                display: false,
+                text: 'Player Comparison'
+              },
+              scale: {
+                 ticks: {
+                    display: false,
+                    maxTicksLimit: 5
+                 }
+              }
+            }
+            });
+            return myRadarChart;
         }
     </script>
 
