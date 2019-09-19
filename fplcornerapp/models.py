@@ -57,6 +57,72 @@ class Player_Type(models.Model):
         return str(self.singular_name)
 
 
+class PlayerManager(models.Manager):
+
+    def get_per90_stats(self):
+        lst = []
+        players = self.all()
+        for player in players:
+            lst.append({
+                'player_id': player.player_id,
+                'points_per90': player.points_per90(),
+                'goals_per_90': player.goals_scored_per90(),
+                'threat_per90': player.threat_per90(),
+                'influence_per90': player.influence_per90(),
+                'creativity_per90': player.creativity_per90(),
+                'assists_per90': player.assists_per90()
+            })
+        return lst
+
+    def get_per90_stats_normalized(self):
+        lst = []
+        points_per90_lst = []
+        goals_per_90_lst = []
+        threat_per90_lst = []
+        influence_per90_lst = []
+        creativity_per90_lst = []
+        assists_per90_lst = []
+        points_per90_max = 0
+        goals_per_90_max = 0
+        threat_per90_max = 0
+        influence_per90_max = 0
+        creativity_per90_max = 0
+        assists_per90_max = 0
+
+        players = self.all()
+        for player in players:
+            points_per90_lst.append(player.points_per90())
+            goals_per_90_lst.append(player.goals_scored_per90())
+            threat_per90_lst.append(player.threat_per90())
+            influence_per90_lst.append(player.influence_per90())
+            creativity_per90_lst.append(player.creativity_per90())
+            assists_per90_lst.append(player.assists_per90())
+
+        points_per90_max = max(points_per90_lst)
+        goals_per_90_max = max(goals_per_90_lst)
+        threat_per90_max = max(threat_per90_lst)
+        influence_per90_max = max(influence_per90_lst)
+        creativity_per90_max = max(creativity_per90_lst)
+        assists_per90_max = max(assists_per90_lst)
+
+        for player in players:
+            lst.append({
+                'player_id': player.player_id,
+                'first_name': player.first_name,
+                'last_name': player.second_name,
+                'web_name': player.web_name,
+                'data': [
+                    player.points_per90() / points_per90_max,
+                    player.goals_scored_per90() / goals_per_90_max,
+                    player.threat_per90() / threat_per90_max,
+                    player.influence_per90() / influence_per90_max,
+                    player.creativity_per90() / creativity_per90_max,
+                    player.assists_per90() / assists_per90_max
+                ]
+            })
+        return lst
+
+
 @python_2_unicode_compatible
 class Player(models.Model):
     # General info
@@ -106,9 +172,43 @@ class Player(models.Model):
     cost_change_event_fall = models.FloatField(null=True, blank=True)
     cost_change_start_fall = models.FloatField(null=True, blank=True)
     cost_change_event = models.FloatField(null=True, blank=True)
+    objects = PlayerManager()
 
-    # def __str__(self):
-    #     return str(self.web_name)
+    def points_per90(self):
+        result = 0
+        if self.minutes > 90:
+            result = float((self.total_points / self.minutes)) * 90.0
+        return result
+
+    def goals_scored_per90(self):
+        result = 0
+        if self.minutes > 90:
+            result = float((self.goals_scored / self.minutes)) * 90.0
+        return result
+
+    def threat_per90(self):
+        result = 0
+        if self.minutes > 90:
+            result = float((self.threat / self.minutes)) * 90.0
+        return result
+
+    def influence_per90(self):
+        result = 0
+        if self.minutes > 90:
+            result = float((self.influence / self.minutes)) * 90.0
+        return result
+
+    def creativity_per90(self):
+        result = 0
+        if self.minutes > 90:
+            result = float((self.creativity / self.minutes)) * 90.0
+        return result
+
+    def assists_per90(self):
+        result = 0
+        if self.minutes > 90:
+            result = float((self.assists / self.minutes)) * 90.0
+        return result
 
     def __str__(self):
         return "{0} {1}".format(self.first_name, self.second_name)
