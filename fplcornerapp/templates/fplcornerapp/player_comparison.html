@@ -8,30 +8,32 @@
 
 {% block content %}
     <div>
-    <div class="row justify-content-center">
-        <div class="col-6">
-            <div>
-                <select class="selectpicker" data-live-search="true" name="player1" id="plrone" onChange="generateComparison();">
-                  {# <option value="All" disabled selected>Player 1</option> #}
-                  {% for p in graph_data %}
-                    <option value="{{ p.player_id }}">{{ p.first_name }} {{ p.last_name }}</option>
-                  {% endfor %}{% csrf_token %}
-                </select>
-            </div>
-            <div>
-                <select class="selectpicker" data-live-search="true" name="player2" id="plrtwo" onChange="generateComparison();">
-                  {# <option value="All" disabled selected>Player 1</option> #}
-                  {% for p in graph_data %}
-                    <option value="{{ p.player_id }}">{{ p.first_name }} {{ p.last_name }}</option>
-                  {% endfor %}{% csrf_token %}
-                </select>
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <div class="d-flex justify-content-center mb-3">
+                    <div class="p-2">
+                        <select class="selectpicker" data-live-search="true" data-width="auto" name="player1" id="plrone" onChange="generateComparison();">
+                          <option value="All" disabled selected>Player 1</option>
+                          {% for p in graph_data %}
+                            <option value="{{ p.player_id }}">{{ p.first_name }} {{ p.last_name }}</option>
+                          {% endfor %}{% csrf_token %}
+                        </select>
+                    </div>
+                    <div class="p-2">
+                        <select class="selectpicker" data-live-search="true" data-width="auto" name="player2" id="plrtwo" onChange="generateComparison();">
+                          <option value="All2" disabled selected>Player 2</option>
+                          {% for p in graph_data %}
+                            <option value="{{ p.player_id }}">{{ p.first_name }} {{ p.last_name }}</option>
+                          {% endfor %}{% csrf_token %}
+                        </select>
+                    </div>
+                </div>    
             </div>
         </div>
-    </div>
         <div class="row justify-content-center">
-            <div class="col-6">
-                <div class="card">
-                    <div class="card-body">
+            <div class="col-10">
+                <div class="">
+                    <div class="">
                         <div>
                     	   <canvas id="comparison"></canvas>
                         </div>
@@ -39,6 +41,11 @@
                 </div>
             </div>
         </div>
+        <div class="row justify-content-center">
+            <div class="alert alert-light" role="alert">
+                All stats per 90 mins.
+            </div>
+        </div>    
     </div>
     <script type="text/javascript">
         function getPlayerOne(){
@@ -75,12 +82,14 @@
                     return allData[i];
                 }
             }
-        }  
+        }
     </script>
 
     <script type="text/javascript">
         function generateComparison(){
-            if (typeof myRadarChart != 'undefined') {
+            var arr = [getPlayerOne(), getPlayerTwo()]
+            if (arr[0] != "All2" & arr[1] != "All2"){
+                if (typeof myRadarChart != 'undefined') {
                 myRadarChart.destroy();
             }
             var playerOneId = getPlayerOne();
@@ -128,6 +137,8 @@
             }
             });
             return myRadarChart;
+            }
+            
         }
     </script>
 
