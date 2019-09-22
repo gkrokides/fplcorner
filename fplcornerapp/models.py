@@ -4,6 +4,7 @@ from django.db import models
 
 import six
 from six import python_2_unicode_compatible
+
 # from django.utils import timezone
 
 # Create your models here.
@@ -121,6 +122,21 @@ class PlayerManager(models.Manager):
                 ]
             })
         return lst
+
+    def top_n_players(self, position, metric, n):
+        metric = "-" + metric
+        players = self.filter(element_type__singular_name_short=position).order_by(metric)[:n]
+        final_data = []
+        for player in players:
+            final_data.append({
+                'player_id': player.player_id,
+                'first_name': player.first_name,
+                'last_name': player.second_name,
+                'web_name': player.web_name,
+                'now_cost': player.now_cost / 10,
+                'total_points': player.total_points
+            })
+        return final_data
 
 
 @python_2_unicode_compatible
