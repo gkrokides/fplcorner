@@ -1,7 +1,42 @@
 {% extends 'fplcornerapp/base.html' %}
 
 {% block head %}
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>		
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>	
+
+    <script type="text/javascript">
+        function getOptionSelection(sel) {
+          return sel.options[sel.selectedIndex].text;
+        }
+    </script>
+
+    <script type="text/javascript">
+        function getChartTitle() {
+            // var m1 = document.getElementById("m_one");
+            // var m1selection = getOptionSelection(m1);
+            // var m2 = document.getElementById("m_two");
+            // var m2selection = getOptionSelection(m2);
+            // var chartTitle = m1selection + " vs. " + m2selection;
+            var chartTitle = "{{ graph_title }}"
+            return chartTitle;
+        }
+    </script> 
+
+     <script type="text/javascript">
+        // function topnSelected() {
+        //     var element = document.getElementById('topn');
+        //     if ({{ generate_graph }} > 0) {
+        //         element.value="{{ topn_selected }}";
+        //     } else {
+        //         element.value="5";
+        //     }
+        // }
+        
+     </script> 
+
+     <script type="text/javascript">
+        window.onLoad;
+        document.getElementById('topn').value="{{ topn_selected|safe }}";
+     </script>
 {% endblock %}
 
 {% block content %}
@@ -11,7 +46,7 @@
             <div class="col-10">
                 <div class="d-flex justify-content-center mb-3">
                     <div class="p-2">
-                        <select class="selectpicker border border-success" data-live-search="true" data-width="auto" name="topn" id="topn" onChange="">
+                        <select class="selectpicker border border-success" data-live-search="true" data-width="auto" name="topn" id="topn">
                           <option value="5">Top 5</option>
                           <option value="10">Top 10</option>
                           <option value="15">Top 15</option>
@@ -33,10 +68,15 @@
             <div class="col-10">
                 <div class="d-flex justify-content-center mb-3">
                     <div class="p-2">
-                        <select class="selectpicker border border-success" data-live-search="true" data-width="auto" name="metric1" id="m_one" onChange="">
-                          {# <option value="All" disabled selected>Player 1</option> #}
+                        <select class="selectpicker border border-success" data-live-search="true" data-width="auto" name="metric1" id="m_one" onChange="getChartTitle();">
+                          {# <option value="{{metric1}}" selected>{{ default1 }}</option> #}
                           {% for key, value in available_metrics.items %}
-                            <option value="{{ key }}">{{ value }}</option>
+                            {% if key == metric1 %}
+                                <option value="{{ key }}" selected>{{ value }}</option>
+                            {% else %}
+                                <option value="{{ key }}">{{ value }}</option>
+                            {% endif %}    
+                            
                           {% endfor %}{% csrf_token %}
                         </select>
                     </div>
@@ -44,10 +84,14 @@
                         vs.
                     </div>
                     <div class="p-2">
-                        <select class="selectpicker border border-success" data-live-search="true" data-width="auto" name="metric2" id="m_two" onChange="">
-                          {# <option value="All2" disabled selected>Player 2</option> #}
+                        <select class="selectpicker border border-success" data-live-search="true" data-width="auto" name="metric2" id="m_two" onChange="getChartTitle();">
+                          {# <option value="{{ metric2 }}" selected>{{ default2 }}</option> #}
                           {% for key, value in available_metrics.items %}
-                            <option value="{{ key }}">{{ value }} </option>
+                            {% if key == metric2 %}
+                                <option value="{{ key }}" selected>{{ value }}</option>
+                            {% else %}
+                                <option value="{{ key }}">{{ value }} </option>
+                            {% endif %}    
                           {% endfor %}{% csrf_token %}
                         </select>
                     </div>
@@ -62,14 +106,6 @@
     </form>
     
 
-    <div class="row">
-        {{ topn }} <br>
-        {{ position }} <br>
-        {{ metric1 }} <br>
-        {{ metric2 }} <br>
-        {{ selected_metrics }}
-    </div>
-
     <div class="row justify-content-center">
         <div class="col-10">
             <canvas id="myChart"></canvas>
@@ -79,59 +115,56 @@
 	
 
 	<script type="text/javascript">
-        var ctx = document.getElementById("myChart").getContext('2d');
-
-        // Define the data 
-        var data = [{
-                        x: 5,
-                        y: 4
-                    }, {
-                        x: 2,
-                        y: 14
-                    },
-                    {
-                        x: 4,
-                        y: 12
-                    },
-                    {
-                        x: 2,
-                        y: 10
-                    },
-                    {
-                        x: 3,
-                        y: 4
-                    },
-                    {
-                        x: 3,
-                        y: 5
-                    },
-                    {
-                        x: 3,
-                        y: 8
-                    },
-                    {
-                        x: 6,
-                        y: 12
-             
-                 }]; // Add data values to array
-        // End Defining data
-        var options = {responsive: true, // Instruct chart js to respond nicely.
-            maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
-        };
-
-        // End Defining data
-        var myChart = new Chart(ctx, {
-            type: 'scatter',
-            data: {
-                datasets: [{
-                        label: 'Population', // Name the series
-                        data: data, // Specify the data values array
-                  borderColor: '#2196f3', // Add custom color border            
-                  backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+        
+        if ({{ generate_graph }} > 0){
+            var ctx = document.getElementById("myChart").getContext('2d');
+            var chartTitle = getChartTitle();
+            var labels = {{ graph_labels_json|safe }};
+            var data = {{ graph_data_json|safe }};
+            
+            var options = {responsive: true, // Instruct chart js to respond nicely.
+                maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
+                tooltips: {
+                    callbacks: {
+                    label: function(tooltipItem, data) {
+                       var label = data.labels[tooltipItem.index];
+                       return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
+                    }
+                 }
+                },
+                scales: {
+                    yAxes: [{
+                      scaleLabel: {
+                        display: true,
+                        labelString: 'Points'
+                      }
+                    }],
+                    xAxes: [{
+                      scaleLabel: {
+                        display: true,
+                        labelString: 'Cost'
+                      }
                     }]
-            },
-            options: options
-        });
+                } 
+            };
+
+            var myChart = new Chart(ctx, {
+                type: 'scatter',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                            label: chartTitle, // Name the series
+                            data: data, // Specify the data values array
+                      borderColor: '#2196f3', // Add custom color border            
+                      backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
+                        }]
+                },
+                options: options
+        }); 
+        }
+            
+        
+        
 	</script>
 
 {% endblock %}

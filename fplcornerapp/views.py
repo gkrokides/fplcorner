@@ -24,13 +24,38 @@ def discover_value(request):
     position = ''
     metric1 = ''
     metric2 = ''
+    default_top_n_metric = 'total_points'
     selected_metrics = []
+    graph_data = []
+    graph_labels = []
+    default1 = available_metrics['now_cost']
+    default2 = available_metrics['total_points']
+    generate_graph = 0
+    topn_selected = "5"
     if request.method == "POST":
         topn = int(request.POST["topn"])
         position = request.POST["pos"]
         metric1 = request.POST["metric1"]
         metric2 = request.POST["metric2"]
-        selected_metrics = Player.objects.top_n_players(position, metric1, topn)
+        topn_selected = request.POST["topn"]
+        # for key, val in available_metrics.items():    # for name, age in dictionary.iteritems():  (for Python 2.x)
+        #     if key == metric1:
+        #         default1 = val
+        #     if key == metric2:
+        #         default2 = val
+        default1 = available_metrics[metric1]
+        default2 = available_metrics[metric2]
+        selected_metrics = Player.objects.top_n_players(position, default_top_n_metric, topn)
+        generate_graph = 1
+    for player_metrics in selected_metrics:
+        graph_data.append({
+            'x': player_metrics[metric1],
+            'y': player_metrics[metric2]
+        })
+        graph_labels.append(player_metrics['web_name'])
+    graph_data_json = json.dumps(graph_data)
+    graph_labels_json = json.dumps(graph_labels)
+    graph_title = str(default1) + " vs " + str(default2)
 
     return render(request, 'fplcornerapp/discover_value.html',
                   {'players': players,
@@ -39,5 +64,12 @@ def discover_value(request):
                    'position': position,
                    'metric1': metric1,
                    'metric2': metric2,
-                   'selected_metrics': selected_metrics
+                   'selected_metrics': selected_metrics,
+                   'graph_data_json': graph_data_json,
+                   'graph_labels_json': graph_labels_json,
+                   'default1': default1,
+                   'default2': default2,
+                   'graph_title': graph_title,
+                   'generate_graph': generate_graph,
+                   'topn_selected': topn_selected
                    })
