@@ -33,10 +33,7 @@
         
      </script> 
 
-     <script type="text/javascript">
-        window.onLoad;
-        document.getElementById('topn').value="{{ topn_selected|safe }}";
-     </script>
+
 {% endblock %}
 
 {% block content %}
@@ -136,13 +133,13 @@
                     yAxes: [{
                       scaleLabel: {
                         display: true,
-                        labelString: 'Points'
+                        labelString: "{{ default2 }}"
                       }
                     }],
                     xAxes: [{
                       scaleLabel: {
                         display: true,
-                        labelString: 'Cost'
+                        labelString: "{{ default1 }}"
                       }
                     }]
                 } 
@@ -166,5 +163,12 @@
         
         
 	</script>
+
+    <script type="text/javascript">
+        document.getElementById('topn').value="{{ topn_selected|safe }}";
+        document.getElementById('pos').value="{{ position|safe }}";
+        document.getElementById('m_one').value="{{ metric1|safe }}";
+        document.getElementById('m_two').value="{{ metric2|safe }}";
+     </script>
 
 {% endblock %}

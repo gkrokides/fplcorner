@@ -134,7 +134,22 @@ class PlayerManager(models.Manager):
                 'last_name': player.second_name,
                 'web_name': player.web_name,
                 'now_cost': player.now_cost / 10,
-                'total_points': player.total_points
+                'total_points': player.total_points,
+                'points_per_game': player.points_per_game,
+                'bonus': player.bonus,
+                'bps': player.bps,
+                'goals_scored': player.goals_scored,
+                'assists': player.assists,
+                'goals_conceded': player.goals_conceded,
+                'clean_sheets': player.clean_sheets,
+                'saves': player.saves,
+                'form': player.form,
+                'value_form': player.value_form,
+                'value_season': player.value_season,
+                'influence': player.influence,
+                'creativity': player.creativity,
+                'threat': player.threat,
+                'ict_index': player.ict_index
             })
         return final_data
 

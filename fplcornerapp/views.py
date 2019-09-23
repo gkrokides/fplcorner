@@ -21,9 +21,9 @@ def discover_value(request):
     players = Player.objects.all().values()
     available_metrics = globalsettings.VALUE_METRICS
     topn = ''
-    position = ''
-    metric1 = ''
-    metric2 = ''
+    position = 'GKP'
+    metric1 = 'now_cost'
+    metric2 = 'total_points'
     default_top_n_metric = 'total_points'
     selected_metrics = []
     graph_data = []
@@ -38,14 +38,9 @@ def discover_value(request):
         metric1 = request.POST["metric1"]
         metric2 = request.POST["metric2"]
         topn_selected = request.POST["topn"]
-        # for key, val in available_metrics.items():    # for name, age in dictionary.iteritems():  (for Python 2.x)
-        #     if key == metric1:
-        #         default1 = val
-        #     if key == metric2:
-        #         default2 = val
         default1 = available_metrics[metric1]
         default2 = available_metrics[metric2]
-        selected_metrics = Player.objects.top_n_players(position, default_top_n_metric, topn)
+        selected_metrics = Player.objects.top_n_players(position, metric2, topn)
         generate_graph = 1
     for player_metrics in selected_metrics:
         graph_data.append({
