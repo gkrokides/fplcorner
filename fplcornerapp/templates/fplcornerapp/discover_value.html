@@ -2,6 +2,7 @@
 
 {% block head %}
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-annotation/0.5.7/chartjs-plugin-annotation.min.js"></script>
 
     <script type="text/javascript">
         function getOptionSelection(sel) {
@@ -22,15 +23,11 @@
     </script> 
 
      <script type="text/javascript">
-        // function topnSelected() {
-        //     var element = document.getElementById('topn');
-        //     if ({{ generate_graph }} > 0) {
-        //         element.value="{{ topn_selected }}";
-        //     } else {
-        //         element.value="5";
-        //     }
-        // }
-        
+        // import ChartAnnotationsPlugin from 'chartjs-plugin-annotation';
+        // Chart.plugins.register(ChartAnnotationsPlugin);
+        // Chart.plugins.register({
+        //     id: 'ChartAnnotationsPlugin',
+        // });
      </script> 
 
 
@@ -105,8 +102,19 @@
 
     <div class="row justify-content-center">
         <div class="col-10">
-            <canvas id="myChart"></canvas>
+            <canvas id="myChart" height="400"></canvas>
         </div>
+
+    <div class="container">
+  <br />
+  <div class="row">
+    <div class="col-md-1"></div>
+    <div class="col-md-10">
+      <canvas id="canvas" height="400"></canvas>
+    </div>
+    <div class="col-md-1"></div>
+  </div>
+</div>    
         
     </div>
 	
@@ -142,7 +150,25 @@
                         labelString: "{{ default1 }}"
                       }
                     }]
-                } 
+                },
+                title: {
+                    display: true,
+                    text: chartTitle,
+                    fontSize: 15
+                },
+                legend: {
+                    display: false
+                },
+                annotation: {
+                  annotations: [{
+                    type: 'line',
+                    mode: 'horizontal',
+                    scaleID: 'y-axis-0',
+                    value: 35,
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 4,
+                  }]
+                }
             };
 
             var myChart = new Chart(ctx, {
@@ -150,11 +176,16 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                            label: chartTitle, // Name the series
-                            data: data, // Specify the data values array
-                      borderColor: '#2196f3', // Add custom color border            
-                      backgroundColor: '#2196f3', // Add custom color background (Points and Fill)
-                        }]
+                    label: chartTitle, // Name the series
+                    data: data,
+                    borderColor: '#2196f3',           
+                    backgroundColor: '#2196f3',
+                    pointBackgroundColor: 'rgba(41, 73, 233, 0.21)',
+                    pointBorderWidth: 1,
+                    pointHoverBorderWidth: 0,
+                    pointRadius: 6,
+                    pointHoverRadius: 10
+                    }]
                 },
                 options: options
         }); 
@@ -169,6 +200,76 @@
         document.getElementById('pos').value="{{ position|safe }}";
         document.getElementById('m_one').value="{{ metric1|safe }}";
         document.getElementById('m_two').value="{{ metric2|safe }}";
+     </script>
+
+     <script type="text/javascript">
+        var chartTitle = getChartTitle();
+        var labels = {{ graph_labels_json|safe }};
+        var data = {{ graph_data_json|safe }};
+
+        var lines = [{
+            type: 'line',
+            mode: 'vertical' ,/*set vertical for vertical line */
+            scaleID: 'x-axis-label', /* id of the axis */
+            value:  4.5,
+            borderColor: '#E35500',
+            borderWidth: 3
+        }];
+
+        var labels = labels;
+
+        var config = {
+            type: 'scatter',
+
+            data: {
+            datasets: [{
+              type: 'scatter',
+              data: data,
+              borderColor: '#E35500',
+              fill: false,
+                lineTension : 0,
+            borderJoinStyle: 'miter',
+            }],
+              lineAtIndex: 2
+            },
+            options: {
+            title: {
+                display: true,
+                text: 'Cash Flow Analysis and Breakdown'
+            },
+             
+            annotation: {
+                drawTime: "afterDraw",
+                annotations: lines
+            },
+              
+            scales: {
+                yAxes: [{
+                      scaleLabel: {
+                        display: true,
+                        labelString: "{{ default2 }}"
+                      },
+                      id: 'y-axis-label'
+                    }],
+                xAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: "{{ default1 }}"
+                  },
+                  id: 'x-axis-label'
+                }]
+            },
+            legend : {
+                display: false,
+            },
+            maintainAspectRatio: false,
+            scaleBeginAtZero: true
+          }
+        };
+        window.onload = function() {
+            var ctx = document.getElementById("canvas").getContext("2d");
+            new Chart(ctx, config);
+        };
      </script>
 
 {% endblock %}
