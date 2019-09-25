@@ -33,14 +33,14 @@
 
 {% endblock %}
 
-{% block content %}
+{% block content2 %}
     <form method="POST" class="">{% csrf_token %}
     <div class="card card-body">
         <div class="row justify-content-center">
-            <div class="col-10">
+            <div class="col-12">
                 <div class="d-flex justify-content-center mb-3">
                     <div class="p-2">
-                        <select class="selectpicker border border-success" data-live-search="true" data-width="auto" name="topn" id="topn">
+                        <select class="selectpicker border border-info" data-live-search="true" data-width="auto" name="topn" id="topn">
                           <option value="5">Top 5</option>
                           <option value="10">Top 10</option>
                           <option value="15">Top 15</option>
@@ -48,7 +48,7 @@
                         </select>
                     </div>
                     <div class="p-2">
-                        <select class="selectpicker border border-success" data-live-search="true" data-width="auto" name="pos" id="pos" onChange="">
+                        <select class="selectpicker border border-info" data-live-search="true" data-width="auto" name="pos" id="pos" onChange="">
                           <option value="GKP">Goalkeepers</option>
                           <option value="DEF">Defenders</option>
                           <option value="MID">Midfielders</option>
@@ -59,10 +59,10 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-10">
+            <div class="col-12">
                 <div class="d-flex justify-content-center mb-3">
                     <div class="p-2">
-                        <select class="selectpicker border border-success" data-live-search="true" data-width="auto" name="metric1" id="m_one" onChange="getChartTitle();">
+                        <select class="selectpicker border border-info" data-live-search="true" data-width="auto" name="metric1" id="m_one" onChange="getChartTitle();">
                           {# <option value="{{metric1}}" selected>{{ default1 }}</option> #}
                           {% for key, value in available_metrics.items %}
                             {% if key == metric1 %}
@@ -78,7 +78,7 @@
                         vs.
                     </div>
                     <div class="p-2">
-                        <select class="selectpicker border border-success" data-live-search="true" data-width="auto" name="metric2" id="m_two" onChange="getChartTitle();">
+                        <select class="selectpicker border border-info" data-live-search="true" data-width="auto" name="metric2" id="m_two" onChange="getChartTitle();">
                           {# <option value="{{ metric2 }}" selected>{{ default2 }}</option> #}
                           {% for key, value in available_metrics.items %}
                             {% if key == metric2 %}
@@ -98,24 +98,13 @@
     </div>
         
     </form>
+{% endblock %}
     
-
+{% block content5 %}
     <div class="row justify-content-center">
         <div class="col-10">
             <canvas id="myChart" height="400"></canvas>
         </div>
-
-    <div class="container">
-  <br />
-  <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-10">
-      <canvas id="canvas" height="400"></canvas>
-    </div>
-    <div class="col-md-1"></div>
-  </div>
-</div>    
-        
     </div>
 	
 
@@ -126,6 +115,8 @@
             var chartTitle = getChartTitle();
             var labels = {{ graph_labels_json|safe }};
             var data = {{ graph_data_json|safe }};
+            var medianX = {{ median_x }};
+            var medianY = {{ median_y }};
             
             var options = {responsive: true, // Instruct chart js to respond nicely.
                 maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
@@ -142,13 +133,15 @@
                       scaleLabel: {
                         display: true,
                         labelString: "{{ default2 }}"
-                      }
+                      },
+                      id: 'y-axis-0'
                     }],
                     xAxes: [{
                       scaleLabel: {
                         display: true,
                         labelString: "{{ default1 }}"
-                      }
+                      },
+                      id: 'x-axis-0'
                     }]
                 },
                 title: {
@@ -164,9 +157,16 @@
                     type: 'line',
                     mode: 'horizontal',
                     scaleID: 'y-axis-0',
-                    value: 35,
-                    borderColor: 'rgb(75, 192, 192)',
-                    borderWidth: 4,
+                    value: medianY,
+                    borderColor: 'rgba(255,99,132,1)',
+                    borderWidth: 2,
+                  },{
+                    type: 'line',
+                    mode: 'vertical',
+                    scaleID: 'x-axis-0',
+                    value: medianX,
+                    borderColor: 'rgba(255,99,132,1)',
+                    borderWidth: 2,
                   }]
                 }
             };
@@ -202,74 +202,6 @@
         document.getElementById('m_two').value="{{ metric2|safe }}";
      </script>
 
-     <script type="text/javascript">
-        var chartTitle = getChartTitle();
-        var labels = {{ graph_labels_json|safe }};
-        var data = {{ graph_data_json|safe }};
 
-        var lines = [{
-            type: 'line',
-            mode: 'vertical' ,/*set vertical for vertical line */
-            scaleID: 'x-axis-label', /* id of the axis */
-            value:  4.5,
-            borderColor: '#E35500',
-            borderWidth: 3
-        }];
-
-        var labels = labels;
-
-        var config = {
-            type: 'scatter',
-
-            data: {
-            datasets: [{
-              type: 'scatter',
-              data: data,
-              borderColor: '#E35500',
-              fill: false,
-                lineTension : 0,
-            borderJoinStyle: 'miter',
-            }],
-              lineAtIndex: 2
-            },
-            options: {
-            title: {
-                display: true,
-                text: 'Cash Flow Analysis and Breakdown'
-            },
-             
-            annotation: {
-                drawTime: "afterDraw",
-                annotations: lines
-            },
-              
-            scales: {
-                yAxes: [{
-                      scaleLabel: {
-                        display: true,
-                        labelString: "{{ default2 }}"
-                      },
-                      id: 'y-axis-label'
-                    }],
-                xAxes: [{
-                  scaleLabel: {
-                    display: true,
-                    labelString: "{{ default1 }}"
-                  },
-                  id: 'x-axis-label'
-                }]
-            },
-            legend : {
-                display: false,
-            },
-            maintainAspectRatio: false,
-            scaleBeginAtZero: true
-          }
-        };
-        window.onload = function() {
-            var ctx = document.getElementById("canvas").getContext("2d");
-            new Chart(ctx, config);
-        };
-     </script>
 
 {% endblock %}

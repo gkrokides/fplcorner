@@ -2,6 +2,7 @@ from django.shortcuts import render
 from fplcorner.settings import globalsettings
 from .models import Player
 import json
+import numpy
 
 
 def home(request):
@@ -32,6 +33,10 @@ def discover_value(request):
     default2 = available_metrics['total_points']
     generate_graph = 0
     topn_selected = "5"
+    median_x_list = []
+    median_y_list = []
+    median_x = 0
+    median_y = 0
     if request.method == "POST":
         topn = int(request.POST["topn"])
         position = request.POST["pos"]
@@ -48,9 +53,14 @@ def discover_value(request):
             'y': player_metrics[metric2]
         })
         graph_labels.append(player_metrics['web_name'])
+    for dict_item in graph_data:
+        median_x_list.append(dict_item['x'])
+        median_y_list.append(dict_item['y'])
     graph_data_json = json.dumps(graph_data)
     graph_labels_json = json.dumps(graph_labels)
     graph_title = str(default1) + " vs " + str(default2)
+    median_x = numpy.average(median_x_list)
+    median_y = numpy.average(median_y_list)
 
     return render(request, 'fplcornerapp/discover_value.html',
                   {'players': players,
@@ -66,5 +76,7 @@ def discover_value(request):
                    'default2': default2,
                    'graph_title': graph_title,
                    'generate_graph': generate_graph,
-                   'topn_selected': topn_selected
+                   'topn_selected': topn_selected,
+                   'median_x': median_x,
+                   'median_y': median_y
                    })
