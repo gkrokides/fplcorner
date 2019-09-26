@@ -1,0 +1,53 @@
+h1 {
+	color: green;
+}
+
+/*.navbar-collapse .nav > li > a:focus,
+.navbar-collapse .nav > li > a:hover,
+.navbar-collapse .nav > li.active > a {
+  background-color: #5DADE2;
+  color: white;
+}
+
+.navbar-collapse .navbar-nav > li > a {
+  color : white;
+}*/
+
+/*.navbar-custom1 .nav > li > a:focus,
+.navbar-custom1 .nav > li > a:hover,
+.navbar-custom1 .nav > li.active > a {
+  background-color: #5DADE2;
+  color: white;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+  color : white;
+}*/
+
+
+/*.active, .nav-link:hover, .nav-link:focus {
+  background-color: #17a2b8;
+}*/
+
+
+
+/*.navbar-nav li a:hover, .navbar-nav > .active > a {
+  color: #fff !important;
+
+  background-color:#f4511e !important;
+  background-image: none !important;
+}*/
+
+/*.nav .open > a
+{
+    background:#759ad6;
+    // Put in styling
+}*/
+
+/*.navbar-nav > .active > a {
+  color: aqua;
+  background-color: green;
+}
+.nav-item > a:hover {
+  color: aqua;
+}*/

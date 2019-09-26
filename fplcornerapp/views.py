@@ -3,6 +3,7 @@ from fplcorner.settings import globalsettings
 from .models import Player
 import json
 import numpy
+import warnings
 
 
 def home(request):
@@ -59,8 +60,10 @@ def discover_value(request):
     graph_data_json = json.dumps(graph_data)
     graph_labels_json = json.dumps(graph_labels)
     graph_title = str(default1) + " vs " + str(default2)
-    median_x = numpy.average(median_x_list)
-    median_y = numpy.average(median_y_list)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=RuntimeWarning)
+        median_x = numpy.average(median_x_list)
+        median_y = numpy.average(median_y_list)
 
     return render(request, 'fplcornerapp/discover_value.html',
                   {'players': players,
@@ -80,3 +83,7 @@ def discover_value(request):
                    'median_x': median_x,
                    'median_y': median_y
                    })
+
+
+def testview(request):
+    return render(request, 'fplcornerapp/test.html', {})

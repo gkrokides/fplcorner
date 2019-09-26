@@ -1,4 +1,5 @@
 <!doctype html>
+{% load static %}
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -11,28 +12,29 @@
 
     <!-- bootstrap-select Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
- 
+    
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
     <title>FPL Corner</title>
     {% block head %}{% endblock %}
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <div class="container">
-      <a class="navbar-brand" href="#">Navbar</a>
+    <div class="container" id="myDIV">
+      <a class="navbar-brand" href="">FPL Corner</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+          <li {% if 'testview' in request.path %}class="active"{% endif %}>
+            <a class="nav-link" href="{% url 'testview' %}">Home</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+          <li {% if 'player-comparison' in request.path %}class="active"{% endif %}>
+            <a class="nav-link" href="{% url 'player_comparison' %}">Player Comparison</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
+          <li {% if 'discover-value' in request.path %}class="active"{% endif %}>
+            <a class="nav-link" href="{% url 'discover_value' %}">Discover Value</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
