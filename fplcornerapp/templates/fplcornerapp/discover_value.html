@@ -35,12 +35,12 @@
 
 {% block content2 %}
     <form method="POST" class="">{% csrf_token %}
-    <div class="card card-body">
+    <div class="card fplbackground p-4">
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="d-flex justify-content-center mb-3">
                     <div class="p-2">
-                        <select class="selectpicker border border-info" data-live-search="true" data-width="auto" name="topn" id="topn">
+                        <select class="selectpicker" data-live-search="true" data-width="auto" name="topn" id="topn">
                           <option value="5">Top 5</option>
                           <option value="10">Top 10</option>
                           <option value="15">Top 15</option>
@@ -48,7 +48,7 @@
                         </select>
                     </div>
                     <div class="p-2">
-                        <select class="selectpicker border border-info" data-live-search="true" data-width="auto" name="pos" id="pos" onChange="">
+                        <select class="selectpicker" data-live-search="true" data-width="auto" name="pos" id="pos" onChange="">
                           <option value="GKP">Goalkeepers</option>
                           <option value="DEF">Defenders</option>
                           <option value="MID">Midfielders</option>
@@ -62,7 +62,7 @@
             <div class="col-12">
                 <div class="d-flex justify-content-center mb-3">
                     <div class="p-2">
-                        <select class="selectpicker border border-info" data-live-search="true" data-width="auto" name="metric1" id="m_one" onChange="getChartTitle();">
+                        <select class="selectpicker" data-live-search="true" data-width="auto" name="metric1" id="m_one" onChange="getChartTitle();">
                           {# <option value="{{metric1}}" selected>{{ default1 }}</option> #}
                           {% for key, value in available_metrics.items %}
                             {% if key == metric1 %}
@@ -78,7 +78,7 @@
                         vs.
                     </div>
                     <div class="p-2">
-                        <select class="selectpicker border border-info" data-live-search="true" data-width="auto" name="metric2" id="m_two" onChange="getChartTitle();">
+                        <select class="selectpicker" data-live-search="true" data-width="auto" name="metric2" id="m_two" onChange="getChartTitle();">
                           {# <option value="{{ metric2 }}" selected>{{ default2 }}</option> #}
                           {% for key, value in available_metrics.items %}
                             {% if key == metric2 %}
@@ -93,7 +93,7 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <button type="submit" class="btn btn-warning">Discover</button>
+            <button type="submit" class="btn fplbackground-inverse">Discover</button>
         </div>
     </div>
         
@@ -101,9 +101,12 @@
 {% endblock %}
     
 {% block content5 %}
-    <div class="row justify-content-center">
+    <div class="p-2 row justify-content-center">
         <div class="col-10">
-            <canvas id="myChart" height="350"></canvas>
+            <div class="">
+               <canvas id="myChart" height="350"></canvas> 
+            </div>
+            
         </div>
     </div>
 	
@@ -117,6 +120,10 @@
             var data = {{ graph_data_json|safe }};
             var medianX = {{ median_x }};
             var medianY = {{ median_y }};
+            var primaryColor = '#3d195b';
+            var secondaryColor = '#00ff85';
+            var primaryColorTransparent = 'rgba(61,25,91,0.6)';
+            var secondaryColorTransparent = 'rgba(0, 255, 133,0.3)';
             
             var options = {responsive: true, // Instruct chart js to respond nicely.
                 maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
@@ -158,14 +165,16 @@
                     mode: 'horizontal',
                     scaleID: 'y-axis-0',
                     value: medianY,
-                    borderColor: 'rgba(255,99,132,1)',
+                    // borderColor: 'rgba(255,99,132,1)',
+                    borderColor: primaryColorTransparent,
                     borderWidth: 2,
                   },{
                     type: 'line',
                     mode: 'vertical',
                     scaleID: 'x-axis-0',
                     value: medianX,
-                    borderColor: 'rgba(255,99,132,1)',
+                    // borderColor: 'rgba(255,99,132,1)',
+                    borderColor: primaryColorTransparent,
                     borderWidth: 2,
                   }]
                 }
@@ -178,13 +187,14 @@
                     datasets: [{
                     label: chartTitle, // Name the series
                     data: data,
-                    borderColor: '#2196f3',           
-                    backgroundColor: '#2196f3',
-                    pointBackgroundColor: 'rgba(41, 73, 233, 0.21)',
-                    pointBorderWidth: 1,
+                    // borderColor: '#2196f3',
+                    borderColor: secondaryColor,           
+                    backgroundColor: secondaryColor,
+                    pointBackgroundColor: secondaryColorTransparent,
+                    pointBorderWidth: 2,
                     pointHoverBorderWidth: 0,
                     pointRadius: 6,
-                    pointHoverRadius: 10
+                    pointHoverRadius: 13
                     }]
                 },
                 options: options

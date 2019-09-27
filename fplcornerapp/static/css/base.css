@@ -1,53 +1,48 @@
-h1 {
-	color: green;
+:root {
+	--primary-color: #3d195b;
+	--sedondary-color: #00ff85;
+	--primary-color-transparent: rgba(61,25,91,0.6);
+	--secondary-color-transparent: rgba(0, 255, 133,0.3);
 }
 
-/*.navbar-collapse .nav > li > a:focus,
-.navbar-collapse .nav > li > a:hover,
-.navbar-collapse .nav > li.active > a {
-  background-color: #5DADE2;
-  color: white;
+/*body {
+	background-color: var(--secondary-color-transparent);
+}*/
+
+.fplbackground{
+	background-color: var(--primary-color);
+	color: var(--sedondary-color);
 }
 
-.navbar-collapse .navbar-nav > li > a {
+.fplbackground-inverse{
+	background-color: var(--sedondary-color);
+	color: var(--primary-color);
+}
+
+.navbar-nav > li > a:focus,
+.navbar-nav > li > a:hover,
+.navbar-nav > li.active > a {
+  color: var(--sedondary-color);
+}
+
+.navbar-nav > li > a {
   color : white;
-}*/
-
-/*.navbar-custom1 .nav > li > a:focus,
-.navbar-custom1 .nav > li > a:hover,
-.navbar-custom1 .nav > li.active > a {
-  background-color: #5DADE2;
-  color: white;
 }
 
-.navbar-inverse .navbar-nav > li > a {
-  color : white;
-}*/
-
-
-/*.active, .nav-link:hover, .nav-link:focus {
-  background-color: #17a2b8;
-}*/
-
-
-
-/*.navbar-nav li a:hover, .navbar-nav > .active > a {
-  color: #fff !important;
-
-  background-color:#f4511e !important;
-  background-image: none !important;
-}*/
-
-/*.nav .open > a
-{
-    background:#759ad6;
-    // Put in styling
-}*/
-
-/*.navbar-nav > .active > a {
-  color: aqua;
-  background-color: green;
+.fplbackground .navbar-brand {
+	background-color: var(--sedondary-color);
+	color: var(--primary-color);
 }
-.nav-item > a:hover {
-  color: aqua;
-}*/
+
+.border-brand {
+    border-width:3px !important;
+    border-color: var(--sedondary-color) !important;
+    background-color: var(--primary-color) !important;
+	color: var(--sedondary-color) !important;
+
+}
+
+.bordered-selector {
+	border-width:3px !important;
+    border-color: var(--sedondary-color) !important;
+}
