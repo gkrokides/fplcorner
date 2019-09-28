@@ -12,7 +12,7 @@
             <div class="col-12">
                 <div class="d-flex justify-content-center mb-3">
                     <div class="p-2">
-                        <select class="selectpicker border border-info" data-live-search="true" data-width="auto" name="player1" id="plrone" onChange="generateComparison();">
+                        <select class="selectpicker border border-light" data-live-search="true" data-width="auto" name="player1" id="plrone" onChange="generateComparison();">
                           <option value="All" disabled selected>Player 1</option>
                           {% for p in graph_data %}
                             <option value="{{ p.player_id }}">{{ p.first_name }} {{ p.last_name }}</option>
@@ -20,7 +20,7 @@
                         </select>
                     </div>
                     <div class="p-2">
-                        <select class="selectpicker border border-danger" data-live-search="true" data-width="auto" name="player2" id="plrtwo" onChange="generateComparison();">
+                        <select class="selectpicker border border-light" data-live-search="true" data-width="auto" name="player2" id="plrtwo" onChange="generateComparison();">
                           <option value="All2" disabled selected>Player 2</option>
                           {% for p in graph_data %}
                             <option value="{{ p.player_id }}">{{ p.first_name }} {{ p.last_name }}</option>
@@ -103,6 +103,11 @@
             var playerOneSelection = getPlayerOneData();
             var playerTwoSelection = getPlayerTwoData();
             var gdata = {{ graph_data_json|safe }};
+            var primaryColor = '#3d195b';
+            var secondaryColor = '#00ff85';
+            var primaryColorTransparent = 'rgba(61,25,91,0.2)';
+            var secondaryColorTransparent = 'rgba(0, 255, 133,0.3)';
+
             myRadarChart = new Chart(document.getElementById("comparison"), {
             type: 'radar',
             data: {
@@ -111,19 +116,26 @@
                 {
                   label: playerOneSelection["web_name"],
                   fill: true,
-                  backgroundColor: "rgba(41, 73, 233, 0.21)",
-                  borderColor: "#2196f3",
-                  pointBorderColor: "#fff",
-                  pointBackgroundColor: "rgba(179,181,198,1)",
+                  // backgroundColor: "rgba(41, 73, 233, 0.21)",
+                  // borderColor: "#2196f3",
+                  // pointBorderColor: "#fff",
+                  // pointBackgroundColor: "rgba(179,181,198,1)",
+                  backgroundColor: primaryColorTransparent,
+                  borderColor: primaryColor,
+                  pointBorderColor: primaryColorTransparent,
+                  pointBackgroundColor: primaryColor,
                   data: playerOneSelection["data"]
                 }, {
                   label: playerTwoSelection["web_name"],
                   fill: true,
-                  backgroundColor: "rgba(255,99,132,0.2)",
-                  borderColor: "rgba(255,99,132,1)",
-                  pointBorderColor: "#fff",
-                  pointBackgroundColor: "rgba(255,99,132,1)",
-                  pointBorderColor: "#fff",
+                  // backgroundColor: "rgba(255,99,132,0.2)",
+                  // borderColor: "rgba(255,99,132,1)",
+                  // pointBorderColor: "#fff",
+                  // pointBackgroundColor: "rgba(255,99,132,1)",
+                  backgroundColor: secondaryColorTransparent,
+                  borderColor: secondaryColor,
+                  pointBorderColor: secondaryColorTransparent,
+                  pointBackgroundColor: secondaryColor,
                   data: playerTwoSelection['data']
                 }
                 ]

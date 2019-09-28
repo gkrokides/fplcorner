@@ -1,7 +1,7 @@
 :root {
 	--primary-color: #3d195b;
 	--sedondary-color: #00ff85;
-	--primary-color-transparent: rgba(61,25,91,0.6);
+	--primary-color-transparent: rgba(61,25,91,0.2);
 	--secondary-color-transparent: rgba(0, 255, 133,0.3);
 }
 
@@ -43,6 +43,6 @@
 }
 
 .bordered-selector {
-	border-width:3px !important;
-    border-color: var(--sedondary-color) !important;
+	border-width:1px !important;
+    border-color: var(--secondary-color) !important;
 }

@@ -20,28 +20,25 @@
   </head>
   <body>
     {# <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4"> #}
-    <nav class="navbar navbar-expand-lg fplbackground mb-4">  
-    <div class="container" id="myDIV">
-      <a class="navbar-brand border border-brand p-1" href="">FPL Corner</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li {% if 'testview' in request.path %}class="active"{% endif %}>
-            <a class="nav-link" href="{% url 'testview' %}">Home</a>
-          </li>
-          <li class="nav-link"><a href=""> | </a></li>
-          <li {% if 'player-comparison' in request.path %}class="active"{% endif %}>
-            <a class="nav-link" href="{% url 'player_comparison' %}">Player Comparison</a>
-          </li>
-          <li class="nav-link"><a href=""> | </a></li>
-          <li {% if 'discover-value' in request.path %}class="active"{% endif %}>
-            <a class="nav-link" href="{% url 'discover_value' %}">Discover Value</a>
-          </li>
-        </ul>
+
+    <nav class="navbar navbar-expand-lg fplbackground mb-2">  
+      <div class="container" id="myDIV">
+        <a class="navbar-brand border border-brand p-1" href="{% url 'testview' %}">FPL Corner</a>
+        <button class="navbar-toggler border-brand p-1" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li {% if 'player-comparison' in request.path %}class="active"{% endif %}>
+              <a class="nav-link" href="{% url 'player_comparison' %}">Player Comparison</a>
+            </li>
+            <li class="nav-link"><a href=""> | </a></li>
+            <li {% if 'discover-value' in request.path %}class="active"{% endif %}>
+              <a class="nav-link" href="{% url 'discover_value' %}">Discover Value</a>
+            </li>
+          </ul>
+        </div>
       </div>
-    </div>
     </nav>
 
      <div class="container" id="main">
