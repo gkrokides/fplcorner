@@ -1,13 +1,39 @@
-:root {
+/*:root {
 	--primary-color: #3d195b;
 	--sedondary-color: #00ff85;
 	--primary-color-transparent: rgba(61,25,91,0.2);
 	--secondary-color-transparent: rgba(0, 255, 133,0.3);
+}*/
+
+:root {
+	--primary-color: #c2cad0;
+	--sedondary-color: #e7717d;
+	--third-color: #afd275;
+	--fourth-color: #7e685a;
+	--primary-color-transparent: rgb(194, 202, 208, 0.2);
+	--secondary-color-transparent: rgba(231, 113, 125, 0.2);
 }
 
-/*body {
-	background-color: var(--secondary-color-transparent);
+/*:root {
+	--primary-color: #2a1b3d;
+	--sedondary-color: #a4b3b6;
+	--third-color: #d83f87;
+	--primary-color-transparent: rgba(164, 179, 182, 0.2);
+	--secondary-color-transparent: rgba(231, 113, 125, 0.2);
 }*/
+
+/*:root {
+	--primary-color: #272727;
+	--sedondary-color: #ff652f;
+	--third-color: #ffe400;
+	--fourth-color: #14a76c;
+	--primary-color-transparent: rgba(39, 39, 39, 0.2);
+	--secondary-color-transparent: rgba(231, 113, 125, 0.2);
+}*/
+
+body {
+	background-color: var(--primary-color-transparent);
+}
 
 .fplbackground{
 	background-color: var(--primary-color);
