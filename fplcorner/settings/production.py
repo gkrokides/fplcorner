@@ -78,8 +78,11 @@ WSGI_APPLICATION = 'fplcorner.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'betkrok$fpldb',
+        'USER': 'betkrok',
+        'PASSWORD': os.environ.get('DB_PASS', ''),
+        'HOST': 'betkrok.mysql.pythonanywhere-services.com',
     }
 }
 
