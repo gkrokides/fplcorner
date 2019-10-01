@@ -18,5 +18,6 @@ VALUE_METRICS = {
     'influence': 'Influence',
     'creativity': 'Creativity',
     'threat': 'Threat',
-    'ict_index': 'ICT Index'
+    'ict_index': 'ICT Index',
+    'selected_by_percent': 'Selected by (%)'
 }

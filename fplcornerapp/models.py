@@ -149,7 +149,8 @@ class PlayerManager(models.Manager):
                 'influence': player.influence,
                 'creativity': player.creativity,
                 'threat': player.threat,
-                'ict_index': player.ict_index
+                'ict_index': player.ict_index,
+                'selected_by_percent': player.selected_by_percent
             })
         return final_data
 
