@@ -9,8 +9,6 @@
 {% block content2 %}
     <div>
         <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="d-flex justify-content-center mb-3">
                     <div class="p-2">
                         <select class="selectpicker border border-light" data-live-search="true" data-width="auto" name="player1" id="plrone" onChange="generateComparison();">
                           <option value="All" disabled selected>Player 1</option>
@@ -27,21 +25,13 @@
                           {% endfor %}{% csrf_token %}
                         </select>
                     </div>
-                </div>    
-            </div>
         </div>
 {% endblock %}
 {% block content5 %}
         <div class="row justify-content-center">
-            <div class="col-12">
-                <div class="">
-                    <div class="">
                         <div>
-                    	   <canvas id="comparison"></canvas>
+                    	   <canvas id="comparison" height="400"></canvas>
                         </div>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="row justify-content-center">
             <div class="alert alert-light mt-4" role="alert">
