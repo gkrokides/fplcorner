@@ -1,7 +1,7 @@
 :root {
 	--primary-color: #3d195b;
 	--sedondary-color: #00ff85;
-	--primary-color-transparent: rgba(61,25,91,0.2);
+	--primary-color-transparent: rgba(61,25,91,0.4);
 	--secondary-color-transparent: rgba(0, 255, 133,0.3);
 }
 
@@ -47,9 +47,9 @@ content:" | ";
 	--secondary-color-transparent: rgba(231, 113, 125, 0.2);
 }*/
 
-/*body {
+body {
 	background-color: var(--primary-color-transparent);
-}*/
+}
 
 .fplbackground{
 	background-color: var(--primary-color);
@@ -86,5 +86,10 @@ content:" | ";
 
 .bordered-selector {
 	border-width:1px !important;
+    border-color: var(--secondary-color) !important;
+}
+
+.bordered-selector-thick {
+	border-width:3px !important;
     border-color: var(--secondary-color) !important;
 }

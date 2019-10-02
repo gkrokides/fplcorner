@@ -38,9 +38,8 @@
 <div class="card card-body fplbackground bordered-selector p-4">
     <form method="POST" class="">{% csrf_token %}
         <div class="row justify-content-center">
-                <div class="d-flex justify-content-center mb-3">
                     <div class="p-2">
-                        <select class="selectpicker mr-2" data-live-search="true" data-width="auto" name="topn" id="topn">
+                        <select class="selectpicker" data-live-search="true" data-width="auto" name="topn" id="topn">
                           <option value="5">Top 5</option>
                           <option value="10">Top 10</option>
                           <option value="15">Top 15</option>
@@ -48,19 +47,16 @@
                         </select>
                     </div>
                     <div class="p-2">
-                        <select class="selectpicker ml-2" data-live-search="true" data-width="auto" name="pos" id="pos" onChange="">
+                        <select class="selectpicker" data-live-search="true" data-width="auto" name="pos" id="pos" onChange="">
                           <option value="GKP">Goalkeepers</option>
                           <option value="DEF">Defenders</option>
                           <option value="MID">Midfielders</option>
                           <option value="FWD">Forwards</option>
                         </select>
                     </div>
-                </div>    
         </div>
-        <div class="row justify-content-center">
-            <div class="">
-                <div class="d-flex justify-content-center mb-3">
-                    <div class="p-2">
+        <div class="row justify-content-center p-2">
+                    <div class="p-2 justify-content-center">
                         <select class="selectpicker" data-live-search="true" data-width="auto" name="metric1" id="m_one" onChange="getChartTitle();">
                           {# <option value="{{metric1}}" selected>{{ default1 }}</option> #}
                           {% for key, value in available_metrics.items %}
@@ -76,7 +72,7 @@
                     <div class="mt-4">
                         vs.
                     </div>
-                    <div class="p-2">
+                    <div class="p-2 justify-content-center">
                         <select class="selectpicker" data-live-search="true" data-width="auto" name="metric2" id="m_two" onChange="getChartTitle();">
                           {# <option value="{{ metric2 }}" selected>{{ default2 }}</option> #}
                           {% for key, value in available_metrics.items %}
@@ -88,10 +84,8 @@
                           {% endfor %}{% csrf_token %}
                         </select>
                     </div>
-                </div>    
-            </div>
         </div>
-        <div class="row justify-content-center">
+        <div class="row justify-content-center mt-3">
             <button type="submit" class="btn fplbackground-inverse">Discover</button>
         </div>
     </form>  
