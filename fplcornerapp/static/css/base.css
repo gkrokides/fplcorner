@@ -5,6 +5,22 @@
 	--secondary-color-transparent: rgba(0, 255, 133,0.3);
 }
 
+/*.nav-link:not(:last-child):after {
+content:" | ";
+
+}*/
+
+/*.navbar-nav .nav-link:not(:last-child) {
+   border-right: 1px solid silver;
+}
+
+@media (max-width: 768px) {
+  .navbar-nav .nav-link:not(:last-child) {
+    border-right: none;
+  }
+}*/
+
+
 /*:root {
 	--primary-color: #c2cad0;
 	--sedondary-color: #e7717d;

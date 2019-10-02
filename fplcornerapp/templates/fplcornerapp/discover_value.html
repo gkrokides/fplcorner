@@ -34,10 +34,10 @@
 {% endblock %}
 
 {% block content2 %}
+    
+<div class="card card-body fplbackground bordered-selector p-4">
     <form method="POST" class="">{% csrf_token %}
-    <div class="card fplbackground bordered-selector p-4">
         <div class="row justify-content-center">
-            <div class="col-12">
                 <div class="d-flex justify-content-center mb-3">
                     <div class="p-2">
                         <select class="selectpicker mr-2" data-live-search="true" data-width="auto" name="topn" id="topn">
@@ -56,10 +56,9 @@
                         </select>
                     </div>
                 </div>    
-            </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-12">
+            <div class="">
                 <div class="d-flex justify-content-center mb-3">
                     <div class="p-2">
                         <select class="selectpicker" data-live-search="true" data-width="auto" name="metric1" id="m_one" onChange="getChartTitle();">
@@ -95,9 +94,10 @@
         <div class="row justify-content-center">
             <button type="submit" class="btn fplbackground-inverse">Discover</button>
         </div>
-    </div>
+    </form>  
+</div>
         
-    </form>
+    
 {% endblock %}
     
 {% block content5 %}
