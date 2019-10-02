@@ -10,7 +10,7 @@
     <div>
         <div class="row justify-content-center">
           <div class="p-2">
-              <select class="selectpicker border border-light" data-live-search="true" data-width="auto" name="player1" id="plrone" onChange="generateComparison();">
+              <select class="selectpicker" data-live-search="true" data-width="auto" name="player1" id="plrone" onChange="generateComparison();">
                 <option value="All" disabled selected>Player 1</option>
                 {% for p in graph_data %}
                   <option value="{{ p.player_id }}">{{ p.first_name }} {{ p.last_name }}</option>
@@ -18,7 +18,7 @@
               </select>
           </div>
           <div class="p-2">
-              <select class="selectpicker border border-light" data-live-search="true" data-width="auto" name="player2" id="plrtwo" onChange="generateComparison();">
+              <select class="selectpicker" data-live-search="true" data-width="auto" name="player2" id="plrtwo" onChange="generateComparison();">
                 <option value="All2" disabled selected>Player 2</option>
                 {% for p in graph_data %}
                   <option value="{{ p.player_id }}">{{ p.first_name }} {{ p.last_name }}</option>
@@ -27,10 +27,10 @@
           </div>
         </div>
 {% endblock %}
-{% block content5 %}
+{% block content7 %}
         <div class="row justify-content-center">
           <div>
-      	   <canvas id="comparison" height="400"></canvas>
+      	   <canvas id="comparison" height="400" width="400"></canvas>
           </div>
         </div>
         <div class="row justify-content-center">
@@ -97,6 +97,7 @@
             var secondaryColor = '#00ff85';
             var primaryColorTransparent = 'rgba(61,25,91,0.2)';
             var secondaryColorTransparent = 'rgba(0, 255, 133,0.3)';
+            var graphFontColor = '#ffffff'
             // var primaryColor = '#afd275';
             // var secondaryColor = '#e7717d';
             // var primaryColorTransparent = 'rgba(175, 210, 117, 0.2)';
@@ -139,11 +140,22 @@
                 display: false,
                 text: 'Player Comparison'
               },
+              legend: {
+                  display: true,
+                  labels: {
+                    fontSize: 14,
+                    fontColor: graphFontColor
+                  }
+              },
               scale: {
                  ticks: {
                     display: false,
                     maxTicksLimit: 5
-                 }
+                 },
+                 pointLabels: {
+                  fontSize: 14,
+                  fontColor: graphFontColor
+                }
               }
             }
             });
