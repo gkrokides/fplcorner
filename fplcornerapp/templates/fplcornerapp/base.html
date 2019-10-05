@@ -12,6 +12,9 @@
 
     <!-- bootstrap-select Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+
+    <!-- Font Aewsome -->
+    <script src="https://kit.fontawesome.com/b23025adb7.js" crossorigin="anonymous"></script>
     
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
@@ -24,8 +27,7 @@
     <nav class="navbar navbar-expand-lg fplbackground mb-2">  
       <div class="container" id="myDIV">
         <a class="navbar-brand border border-brand p-1" href="{% url 'home' %}">FPL Corner</a>
-        <button class="navbar-toggler border-brand p-1" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <button class="navbar-toggler ml-auto custom-toggler border-brand p-1" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav">
@@ -43,19 +45,22 @@
       </div>
     </nav>
 
+
+    {% block content %}
+    {% endblock %}
      <div class="container" id="main">
 
         <div class="content container-fluid">
             <div class="row">
-                <div class="col-md-1">
+                <div class="col-md-2">
                     {% block content1 %}
                     {% endblock %}
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-8">
                     {% block content2 %}
                     {% endblock %}
                 </div>
-                <div class="col-md-1">
+                <div class="col-md-2">
                     {% block content3 %}
                     {% endblock %}
                 </div>
@@ -88,6 +93,18 @@
             </div>
         </div>
       </div> 
+
+      <footer class="footerr">
+          <div class="row footerbackground text-center py-3 mt-4">
+            <div class="col-md-4">
+                <a class="footerlink" href="{% url 'about' %}"> About |</a>
+                <a class="footerlink" href="{% url 'contactus' %}"> Contact us</a>
+            </div>
+            <div class="col-md-4">
+                © 2019 Copyright: FPLcorner.com
+            </div>    
+          </div>
+      </footer>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

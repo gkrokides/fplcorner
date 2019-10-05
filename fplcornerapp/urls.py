@@ -5,6 +5,8 @@ urlpatterns = [
     url(r'^$', views.home, name='home'),
     url(r'^player-comparison$', views.player_comparison, name='player_comparison'),
     url(r'^discover-value$', views.discover_value, name='discover_value'),
-    url(r'^testview$', views.testview, name='testview')
+    url(r'^contactus$', views.email, name='contactus'),
+    url(r'^success/$', views.success, name='success'),
+    url(r'^about/$', views.about, name='about')
 
 ]

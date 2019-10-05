@@ -1,13 +1,16 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from fplcorner.settings import globalsettings
 from .models import Player
+from .forms import ContactForm
+from django.core.mail import send_mail, BadHeaderError
 import json
 import numpy
 import warnings
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 
 
 def home(request):
-    return render(request, 'fplcornerapp/base.html', {})
+    return render(request, 'fplcornerapp/home.html', {})
 
 
 def player_comparison(request):
@@ -85,5 +88,28 @@ def discover_value(request):
                    })
 
 
-def testview(request):
-    return render(request, 'fplcornerapp/test.html', {})
+def about(request):
+    return render(request, 'fplcornerapp/aboutus.html', {})
+
+
+def email(request):
+    if request.method == 'GET':
+        form = ContactForm()
+    else:
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            subject = form.cleaned_data['subject']
+            from_email = form.cleaned_data['email']
+            message = form.cleaned_data['message']
+            message = message + '\n ' + '\n Sent from: ' + name + '\n email: ' + from_email
+            try:
+                send_mail(subject, message, from_email, ['georgekrokides@gmail.com'])
+            except BadHeaderError:
+                return HttpResponse('Invalid header found.')
+            return redirect('success')
+    return render(request, 'fplcornerapp/contactus.html', {'form': form})
+
+
+def success(request):
+    return render(request, 'fplcornerapp/success.html')

@@ -1,0 +1,68 @@
+{% extends 'fplcornerapp/base.html' %}
+
+{% block header %}
+
+	
+{% endblock %}
+
+
+{% block content %}
+<div class="aboutus-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7 col-sm-12 col-xs-12">
+					<div class="aboutus">
+						<h2 class="aboutus-title">About Us</h2>
+						<p class="aboutus-text">We believe there are 3 pillars for succeeding at FPL and getting those green arrows consistently. Watching a lot of games, being on top of news and suspensions and correctly exploiting the data.</p>
+						<p class="aboutus-text">The quant part of FPL can be a bit overwhelming especially when you are not sure what you are looking for. What we try to do at FPLcorner.com, is simplify this process, trying to squeeze in all freely available data in a friendly graphical representation, that makes sense! Have a look at our <a href="{% url 'player_comparison' %}">Player Comparison</a> and <a href="{% url 'discover_value' %}">Discover Value</a> tools and feel free to send us any comments or feedback.</p>
+						
+					</div>
+				</div>
+				
+				<div class="col-md-5 col-sm-12 col-xs-12">
+					<div class="feature">
+						<div class="feature-box">
+							<div class="clearfix">
+								<div class="iconset">
+									<span><i class="fas fa-tv icon"></i></span>
+								</div>
+								<div class="feature-content">
+									<h4>Watch a lot of Games</h4>
+									<p>Watch as many games as you can. This gives you a feel of the team and players momentum.</p>
+								</div>
+							</div>
+						</div>
+						<div class="feature-box">
+							<div class="clearfix">
+								<div class="iconset">
+									<span><i class="fas fa-clipboard icon"></i></span>
+								</div>
+								<div class="feature-content">
+									<h4>Do your Homework</h4>
+									<p>Be aware of injuries, card accumulations, suspensions and be on top any news related to your squad and watchlist.</p>
+								</div>
+							</div>
+						</div>
+						<div class="feature-box">
+							<div class="clearfix">
+								<div class="iconset">
+									<span><i class="fas fa-chart-line icon"></i></span>
+								</div>
+								<div class="feature-content">
+									<h4>Harvest the Stats</h4>
+									<p>Use the available stats to achieve your goals (i.e identify value picks, in-form low ownership players etc.)</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="paddingtop">
+					<a class="aboutus-more fplbackground" href="{% url 'contactus' %}">Contact us</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
