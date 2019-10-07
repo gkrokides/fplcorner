@@ -2,11 +2,22 @@
 {% load static %}
 <html lang="en">
   <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-149505780-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-149505780-1');
+    </script>
+
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    
+
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
@@ -15,7 +26,7 @@
 
     <!-- Font Aewsome -->
     <script src="https://kit.fontawesome.com/b23025adb7.js" crossorigin="anonymous"></script>
-    
+
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
     <title>FPL Corner</title>
@@ -24,7 +35,7 @@
   <body>
     {# <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4"> #}
 
-    <nav class="navbar navbar-expand-lg fplbackground mb-2">  
+    <nav class="navbar navbar-expand-lg fplbackground mb-2">
       <div class="container" id="myDIV">
         <a class="navbar-brand border border-brand p-1" href="{% url 'home' %}">FPL Corner</a>
         <button class="navbar-toggler ml-auto custom-toggler border-brand p-1" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span>
@@ -92,7 +103,7 @@
                 </div>
             </div>
         </div>
-      </div> 
+      </div>
 
       <footer class="footerr">
           <div class="row footerbackground text-center py-3 mt-4">
@@ -102,7 +113,7 @@
             </div>
             <div class="col-md-4">
                 © 2019 Copyright: FPLcorner.com
-            </div>    
+            </div>
           </div>
       </footer>
 
