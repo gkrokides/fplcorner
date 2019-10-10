@@ -6,7 +6,7 @@
 {% block content %}
 
 <div class="container">
-  <div class="jumbotron jumbotron-fluid fplbackground-inverse">
+  <div class="jumbotron jumbotron-fluid fplbackground-inverse mb-0">
     <div class="container">
       <h1 class="display-4">Welcome to FPLcorner.com</h1>
       <p class="lead">A place that consolidates all available FPL data in one place. Use our tools below to make educated transfer decisions based on our really friendly interface.</p>
@@ -21,7 +21,7 @@
             <div class="card-header fplbackground">
               Compare Players
             </div>
-            <div class="card-body fplbackground-inverse mb-3">
+            <div class="card-body fplbackground-inverse mb-0">
               <h5 class="card-title">Select two players and you are good to go</h5>
               <p class="card-text">A very friendly radar chart showing player key metrics, giving you an overview of how they are performing this season.</p>
               <a href="{% url 'player_comparison' %}" class="btn fplbackground">Compare</a>
@@ -33,7 +33,7 @@
             <div class="card-header fplbackground">
               Discover Value
             </div>
-            <div class="card-body fplbackground-inverse mb-3">
+            <div class="card-body fplbackground-inverse mb-0">
               <h5 class="card-title">A scatter plot with a wide selection of stats</h5>
               <p class="card-text">Select between a plethora of stats to create your own scatter plot and discover great picks based on your preferences.</p>
               <a href="{% url 'discover_value' %}" class="btn fplbackground">Discover</a>

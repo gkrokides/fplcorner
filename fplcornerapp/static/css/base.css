@@ -48,6 +48,7 @@ content:" | ";
 }*/
 
 body {
+	padding-bottom: 50px;
 	background-color: var(--primary-color-transparent);
 }
 
@@ -121,11 +122,12 @@ body {
   border-color: rgb(255,102,203);
 }
 
-/*.footerr {
+ footer {
   position: fixed;
   bottom: 0;
   width: 100%;
-}*/
+
+}
 
 .aboutus-section {
     padding: 90px 0;	
