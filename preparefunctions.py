@@ -130,26 +130,27 @@ def prepare_fixture_data():
     final_data = []
 
     for fixture in all_fixture_data:
-        team_h = Team.objects.get(team_id=fixture['team_h'])
-        team_a = Team.objects.get(team_id=fixture['team_a'])
-        event = Event.objects.get(event_id=fixture['event'])
-        season = Season.objects.get(is_current=True)
+        if Event.objects.filter(event_id=fixture['event']).exists():
+            team_h = Team.objects.get(team_id=fixture['team_h'])
+            team_a = Team.objects.get(team_id=fixture['team_a'])
+            event = Event.objects.get(event_id=fixture['event'])
+            season = Season.objects.get(is_current=True)
 
-        final_data.append({
-            'fixture_id': fixture['id'],
-            'code': fixture['code'],
-            'team_h': team_h,
-            'team_a': team_a,
-            'event': event,
-            'season': season,
-            'kickoff_time': fixture['kickoff_time'],
-            'started': fixture['started'],
-            'finished': fixture['finished'],
-            'team_h_difficulty': fixture['team_h_difficulty'],
-            'team_a_difficulty': fixture['team_a_difficulty'],
-            'team_a_score': fixture['team_a_score'],
-            'team_h_score': fixture['team_h_score']
-        })
+            final_data.append({
+                'fixture_id': fixture['id'],
+                'code': fixture['code'],
+                'team_h': team_h,
+                'team_a': team_a,
+                'event': event,
+                'season': season,
+                'kickoff_time': fixture['kickoff_time'],
+                'started': fixture['started'],
+                'finished': fixture['finished'],
+                'team_h_difficulty': fixture['team_h_difficulty'],
+                'team_a_difficulty': fixture['team_a_difficulty'],
+                'team_a_score': fixture['team_a_score'],
+                'team_h_score': fixture['team_h_score']
+            })
 
     return final_data
 
