@@ -53,7 +53,7 @@ body {
 }
 
 .footerbackground {
-	background-color: var(--secondary-color-transparent);
+	background-color: var(--secondary-color);
 }
 
 .fplbackground{
