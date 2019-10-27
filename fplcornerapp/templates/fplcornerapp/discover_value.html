@@ -510,7 +510,7 @@
                     }]
                 },
                 options: options
-        }); 
+            }); 
         }
      }   
     </script>
@@ -518,8 +518,9 @@
 
     <script type="text/javascript">
     function generateGraphWithLine(){
+        if ({{ generate_graph }} > 0) {
             var ctx = document.getElementById("scatter").getContext('2d');
-            var lineCheckbox = document.getElementById("defaultCheck1")
+            var lineCheckbox = document.getElementById("defaultCheck1");
             var rsqr = {{ r_sqr|floatformat:2 }};
             var chartTitle = getChartTitle().concat(' Regression (R\u00B2=', rsqr, ')');
             var labels = {{ graph_labels_json|safe }};
@@ -620,7 +621,8 @@
                 },
                 options: options
             });
-    }    
+        }  
+    }  
     </script>
 
     <script type="text/javascript">
