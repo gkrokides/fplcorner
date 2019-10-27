@@ -426,9 +426,6 @@
 
      <script type="text/javascript">
      function generateGraphNoLine(){
-     // var ctx = document.getElementById("scatter").getContext('2d');
-     // var myChart = new Chart(ctx, {type: 'line', data: [], options: {}});
-     // myChart.destroy();  
         if ({{ generate_graph }} > 0){
             var ctx = document.getElementById("myChartNoLine").getContext('2d');
             var chartTitle = getChartTitle();
@@ -521,9 +518,6 @@
 
     <script type="text/javascript">
     function generateGraphWithLine(){
-            // var ctx = document.getElementById("myChartNoLine").getContext('2d');
-            // var myChart = new Chart(ctx, {type: 'line', data: [], options: {}});
-            // myChart.destroy();
             var ctx = document.getElementById("scatter").getContext('2d');
             var lineCheckbox = document.getElementById("defaultCheck1")
             var rsqr = {{ r_sqr|floatformat:2 }};
