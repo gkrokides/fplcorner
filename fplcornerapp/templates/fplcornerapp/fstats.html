@@ -1,0 +1,66 @@
+{% extends 'fplcornerapp/base.html' %}
+
+
+{% block content5 %}
+
+
+<table class="table table-sm table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Fixture</th>
+            <th scope="col">Player</th>
+            <th scope="col">Goals Scored</th>
+            <th scope="col">Assists</th>
+            <th scope="col">Creativity</th>
+            <th scope="col">Influence</th>
+            <th scope="col">Threat</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for stat in allstats %}
+        <tr>
+            <td>{{ stat.fixture }}</td>
+            <td>{{ stat.player }}</td>
+            <td>{{ stat.goals_scored }}</td>
+            <td>{{ stat.assists }}</td>
+            <td>{{ stat.creativity }}</td>
+            <td>{{ stat.influence }}</td>
+            <td>{{ stat.threat }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<table class="table table-sm table-dark">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First</th>
+      <th scope="col">Last</th>
+      <th scope="col">Handle</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Mark</td>
+      <td>Otto</td>
+      <td>@mdo</td>
+    </tr>
+    <tr>
+      <th scope="row">2</th>
+      <td>Jacob</td>
+      <td>Thornton</td>
+      <td>@fat</td>
+    </tr>
+    <tr>
+      <th scope="row">3</th>
+      <td colspan="2">Larry the Bird</td>
+      <td>@twitter</td>
+    </tr>
+  </tbody>
+</table>
+
+
+{% endblock %}
