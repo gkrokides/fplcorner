@@ -46,6 +46,7 @@ def discover_value(request):
     median_y = 0
     regression_line = []
     rl = []
+    rl_json = []
     r_sqr = 0.0
     metric1_humanized = ''
     if request.method == "POST":
@@ -100,7 +101,7 @@ def discover_value(request):
                 'y': regression_line[i]
             })
         r_sqr = coefficient_of_determination(ys, regression_line)
-
+        rl_json = json.dumps(rl)
     return render(request, 'fplcornerapp/discover_value.html',
                   {'players': players,
                    'available_metrics': available_metrics,
@@ -121,7 +122,7 @@ def discover_value(request):
                    'median_y': median_y,
                    'regression_line': regression_line,
                    'graph_data': graph_data,
-                   'rl': rl,
+                   'rl': rl_json,
                    'r_sqr': r_sqr
                    })
 
