@@ -1,14 +1,33 @@
 {% extends 'fplcornerapp/base.html' %}
 
 
-{% block content5 %}
+{% block content7 %}
 
+<form method="POST" class="">{% csrf_token %}
+  <div class="input-group p-2">
+    <select class="selectpicker" data-live-search="true" data-width="auto" name="player" id="plrone">
+      {% for p in allplayers %}
+        <option value="{{ p.0 }}">{{ p.1 }} {{ p.2 }}</option>
+      {% endfor %}{% csrf_token %}
+    </select>
+  <div class="ml-2">  
+    <input type="text" class="form-control" name="num_input" id="num" placeholder="Lookback Games">
+  </div>  
+  </div>
+  <div class="p-2">
+    <button type="submit" class="btn fplbackground-inverse">Get Data</button>
+  </div>
+</form>
 
-<table class="table table-sm table-dark">
+<table class="table w-auto small table-dark">
     <thead>
         <tr>
-            <th scope="col">Fixture</th>
             <th scope="col">Player</th>
+            <th scope="col">Gameweek</th>
+            <th scope="col">Fixture Date</th>
+            <th scope="col">Home</th>
+            <th scope="col">Away</th>
+            <th scope="col">Minutes</th>
             <th scope="col">Goals Scored</th>
             <th scope="col">Assists</th>
             <th scope="col">Creativity</th>
@@ -17,10 +36,14 @@
         </tr>
     </thead>
     <tbody>
-    {% for stat in allstats %}
+    {% for stat in selected_data %}
         <tr>
-            <td>{{ stat.fixture }}</td>
-            <td>{{ stat.player }}</td>
+            <td>{{ stat.player.first_name }} {{ stat.player.second_name }}</td>
+            <td>{{ stat.fixture.event.name }}</td>
+            <td>{{ stat.fixture.kickoff_time }}</td>
+            <td>{{ stat.fixture.team_h.name }}</td>
+            <td>{{ stat.fixture.team_a.name }}</td>
+            <td>{{ stat.minutes }}</td>
             <td>{{ stat.goals_scored }}</td>
             <td>{{ stat.assists }}</td>
             <td>{{ stat.creativity }}</td>
@@ -31,35 +54,39 @@
     </tbody>
 </table>
 
-
-<table class="table table-sm table-dark">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First</th>
-      <th scope="col">Last</th>
-      <th scope="col">Handle</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td colspan="2">Larry the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
+<table class="table w-auto small table-dark">
+    <thead>
+        <tr>
+            <th scope="col">Player</th>
+            <th scope="col">Gameweek</th>
+            <th scope="col">Fixture Date</th>
+            <th scope="col">Home</th>
+            <th scope="col">Away</th>
+            <th scope="col">Minutes</th>
+            <th scope="col">Goals Scored</th>
+            <th scope="col">Assists</th>
+            <th scope="col">Creativity</th>
+            <th scope="col">Influence</th>
+            <th scope="col">Threat</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for stat in final_data %}
+        <tr>
+            <td>{{ stat.first_name }} {{ stat.second_name }}</td>
+            <td>{{ stat.gameweek }}</td>
+            <td>{{ stat.date }}</td>
+            <td>{{ stat.team_h }}</td>
+            <td>{{ stat.team_a }}</td>
+            <td>{{ stat.minutes }}</td>
+            <td>{{ stat.goals_scored }}</td>
+            <td>{{ stat.assists }}</td>
+            <td>{{ stat.creativity }}</td>
+            <td>{{ stat.influence }}</td>
+            <td>{{ stat.threat }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
 </table>
 
 
