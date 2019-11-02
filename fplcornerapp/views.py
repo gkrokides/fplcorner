@@ -160,39 +160,24 @@ def fstats(request):
     final_data = []
     if request.method == "POST":
         selected_player_id = request.POST["player"]
-        lookback = int(request.POST["num_input"])
-        selected_data = Player_Fixture_Stat.objects.filter(player__id=selected_player_id).order_by('fixture__kickoff_time')[:lookback]
-        for x in range(0, len(selected_data)):
-            if x == 0:
-                final_data.append({
-                    'first_name': selected_data[x].player.first_name,
-                    'second_name': selected_data[x].player.second_name,
-                    'gameweek': selected_data[x].fixture.event.name,
-                    'date': selected_data[x].fixture.kickoff_time,
-                    'team_h': selected_data[x].fixture.team_h.name,
-                    'team_a': selected_data[x].fixture.team_a.name,
-                    'minutes': selected_data[x].player.minutes,
-                    'goals_scored': selected_data[x].player.goals_scored,
-                    'assists': selected_data[x].player.assists,
-                    'creativity': selected_data[x].player.creativity,
-                    'influence': selected_data[x].player.influence,
-                    'threat': selected_data[x].player.threat
-                })
-            else:
-                final_data.append({
-                    'first_name': selected_data[x].player.first_name,
-                    'second_name': selected_data[x].player.second_name,
-                    'gameweek': selected_data[x].fixture.event.name,
-                    'date': selected_data[x].fixture.kickoff_time,
-                    'team_h': selected_data[x].fixture.team_h.name,
-                    'team_a': selected_data[x].fixture.team_a.name,
-                    'minutes': selected_data[x].player.minutes - selected_data[x - 1].player.minutes,
-                    'goals_scored': selected_data[x].player.goals_scored - selected_data[x - 1].player.goals_scored,
-                    'assists': selected_data[x].player.assists - selected_data[x - 1].player.assists,
-                    'creativity': selected_data[x].player.creativity - selected_data[x - 1].player.creativity,
-                    'influence': selected_data[x].player.influence - selected_data[x - 1].player.influence,
-                    'threat': selected_data[x].player.threat - selected_data[x - 1].player.threat
-                })
+        lookback = int(request.POST["num_input"]) + 1
+        # selected_data = Player_Fixture_Stat.objects.filter(player__id=selected_player_id).order_by('-fixture__kickoff_time')[:lookback]
+        # for x in range(0, len(selected_data) - 1):
+        #     final_data.append({
+        #         'first_name': selected_data[x].player.first_name,
+        #         'second_name': selected_data[x].player.second_name,
+        #         'gameweek': selected_data[x].fixture.event.name,
+        #         'date': selected_data[x].fixture.kickoff_time,
+        #         'team_h': selected_data[x].fixture.team_h.name,
+        #         'team_a': selected_data[x].fixture.team_a.name,
+        #         'minutes': selected_data[x].minutes - selected_data[x + 1].minutes,
+        #         'goals_scored': selected_data[x].goals_scored - selected_data[x + 1].goals_scored,
+        #         'assists': selected_data[x].assists - selected_data[x + 1].assists,
+        #         'creativity': selected_data[x].creativity - selected_data[x + 1].creativity,
+        #         'influence': selected_data[x].influence - selected_data[x + 1].influence,
+        #         'threat': selected_data[x].threat - selected_data[x + 1].threat
+        #     })
+        final_data = Player_Fixture_Stat.objects.get_player_performance_per_gw(selected_player_id, lookback)
 
     return render(request, 'fplcornerapp/fstats.html', {
         'allplayers': allplayers,

@@ -295,6 +295,28 @@ class Fixture(models.Model):
 
 
 # FIXTURE STATS
+class PFSManager(models.Manager):
+    # Returns a set of all players related to the given fixture
+    def get_player_performance_per_gw(self, pid, lookback):
+        final_data = []
+        selected_data = self.filter(player__id=pid).order_by('-fixture__kickoff_time')[:lookback]
+        for x in range(0, len(selected_data) - 1):
+            final_data.append({
+                'first_name': selected_data[x].player.first_name,
+                'second_name': selected_data[x].player.second_name,
+                'gameweek': selected_data[x].fixture.event.name,
+                'date': selected_data[x].fixture.kickoff_time,
+                'team_h': selected_data[x].fixture.team_h.name,
+                'team_a': selected_data[x].fixture.team_a.name,
+                'minutes': selected_data[x].minutes - selected_data[x + 1].minutes,
+                'goals_scored': selected_data[x].goals_scored - selected_data[x + 1].goals_scored,
+                'assists': selected_data[x].assists - selected_data[x + 1].assists,
+                'creativity': selected_data[x].creativity - selected_data[x + 1].creativity,
+                'influence': selected_data[x].influence - selected_data[x + 1].influence,
+                'threat': selected_data[x].threat - selected_data[x + 1].threat
+            })
+        return final_data
+
 
 class Player_Fixture_Stat(models.Model):
     fixture = models.ForeignKey('Fixture', blank=True, null=True)
@@ -331,6 +353,7 @@ class Player_Fixture_Stat(models.Model):
     cost_change_event_fall = models.FloatField(null=True, blank=True)
     cost_change_start_fall = models.FloatField(null=True, blank=True)
     cost_change_event = models.FloatField(null=True, blank=True)
+    objects = PFSManager()
 
     class Meta:
         ordering = ["fixture"]
