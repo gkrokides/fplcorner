@@ -1,7 +1,8 @@
 from django import forms
+from captcha.fields import CaptchaField
 
-from .models import *
-from django.utils import timezone
+# from .models import *
+# from django.utils import timezone
 
 
 class ContactForm(forms.Form):
@@ -9,3 +10,4 @@ class ContactForm(forms.Form):
     email = forms.EmailField(required=True)
     subject = forms.CharField(required=True)
     message = forms.CharField(widget=forms.Textarea, required=True)
+    captcha = CaptchaField()

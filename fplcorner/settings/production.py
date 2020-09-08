@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrapform',
     'fplcornerapp',
-    'django_extensions'
+    'django_extensions',
+    'captcha'
 ]
 
 MIDDLEWARE_CLASSES = [

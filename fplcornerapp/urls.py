@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^test/$', views.test, name='test'),
     url(r'^mstats/$', views.mstats, name='mstats')
 
+
 ]

@@ -141,7 +141,7 @@ def email(request):
             subject = form.cleaned_data['subject']
             from_email = form.cleaned_data['email']
             message = form.cleaned_data['message']
-            message = message + '\n ' + '\n Sent from: ' + name + '\n email: ' + from_email
+            message = message + '\n ' + '\n Sent from: ' + name + '\n email: ' + from_email + '\n site: fplcorner.com '
             try:
                 send_mail(subject, message, from_email, ['georgekrokides@gmail.com'])
             except BadHeaderError:
