@@ -60,6 +60,14 @@ class Player_Type(models.Model):
 
 class PlayerManager(models.Manager):
 
+    def players_for_current_season(self):
+        x = Fixture.objects.filter(season__is_current=True)
+        teams = [t.team_a.code for t in x]
+        teams_set = set(teams)
+        unique_team_codes = list(teams_set)
+        player_objects_for_current_season = Player.objects.filter(team_code__in=unique_team_codes)
+        return player_objects_for_current_season
+
     def get_per90_stats(self):
         lst = []
         players = self.all()
