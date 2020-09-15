@@ -24,13 +24,14 @@ def player_comparison(request):
 
 
 def discover_value(request):
-    players = Player.objects.all().values()
+    # players = Player.objects.players_for_current_season().values()
+    # players = Player.objects.all().values()
     available_metrics = globalsettings.VALUE_METRICS
     topn = ''
     position = 'MID'
     metric1 = 'now_cost'
     metric2 = 'total_points'
-    default_top_n_metric = 'total_points'
+    # default_top_n_metric = 'total_points'
     selected_metrics = []
     line_metrics = []
     graph_data = []
@@ -103,28 +104,28 @@ def discover_value(request):
         r_sqr = coefficient_of_determination(ys, regression_line)
         rl_json = json.dumps(rl)
     return render(request, 'fplcornerapp/discover_value.html',
-                  {'players': players,
-                   'available_metrics': available_metrics,
-                   'topn': topn,
-                   'position': position,
-                   'metric1': metric1,
-                   'metric2': metric2,
-                   'metric1_humanized': metric1_humanized,
-                   'selected_metrics': selected_metrics,
-                   'graph_data_json': graph_data_json,
-                   'graph_labels_json': graph_labels_json,
-                   'default1': default1,
-                   'default2': default2,
-                   'graph_title': graph_title,
-                   'generate_graph': generate_graph,
-                   'topn_selected': topn_selected,
-                   'median_x': median_x,
-                   'median_y': median_y,
-                   'regression_line': regression_line,
-                   'graph_data': graph_data,
-                   'rl': rl_json,
-                   'r_sqr': r_sqr
-                   })
+                  {
+                      'available_metrics': available_metrics,
+                      'topn': topn,
+                      'position': position,
+                      'metric1': metric1,
+                      'metric2': metric2,
+                      'metric1_humanized': metric1_humanized,
+                      'selected_metrics': selected_metrics,
+                      'graph_data_json': graph_data_json,
+                      'graph_labels_json': graph_labels_json,
+                      'default1': default1,
+                      'default2': default2,
+                      'graph_title': graph_title,
+                      'generate_graph': generate_graph,
+                      'topn_selected': topn_selected,
+                      'median_x': median_x,
+                      'median_y': median_y,
+                      'regression_line': regression_line,
+                      'graph_data': graph_data,
+                      'rl': rl_json,
+                      'r_sqr': r_sqr
+                  })
 
 
 def about(request):

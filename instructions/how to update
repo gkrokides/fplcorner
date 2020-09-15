@@ -6,7 +6,7 @@ HOW TO UPDATE NEW SEASON DATA (You run these once. After that you follow the ste
 		2. Open the previous season and un-mark it as current
 
 	2. Update the Team model.
-	"python manage.py update_teams"
+	"python manage.py update_teams_first_run"
 	* A lot of information is not included this year (i.e played, points, wins, losses e.t.c) but these fields are included in the db in case they start reporting them.
 
 	3. Update the Player Types model.

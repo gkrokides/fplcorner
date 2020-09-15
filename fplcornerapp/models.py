@@ -62,7 +62,9 @@ class PlayerManager(models.Manager):
 
     def players_for_current_season(self):
         x = Fixture.objects.filter(season__is_current=True)
-        teams = [t.team_a.code for t in x]
+        teams_a = [t.team_a.pk for t in x]
+        teams_h = [t.team_h.pk for t in x]
+        teams = teams_a + teams_h
         teams_set = set(teams)
         unique_team_codes = list(teams_set)
         player_objects_for_current_season = Player.objects.filter(team_code__in=unique_team_codes)
@@ -70,7 +72,8 @@ class PlayerManager(models.Manager):
 
     def get_per90_stats(self):
         lst = []
-        players = self.all()
+        # players = self.all()
+        players = self.players_for_current_season()
         for player in players:
             lst.append({
                 'player_id': player.player_id,
@@ -98,7 +101,8 @@ class PlayerManager(models.Manager):
         creativity_per90_max = 0
         assists_per90_max = 0
 
-        players = self.all()
+        # players = self.all()
+        players = self.players_for_current_season()
         for player in players:
             points_per90_lst.append(player.points_per90())
             goals_per_90_lst.append(player.goals_scored_per90())
@@ -133,7 +137,9 @@ class PlayerManager(models.Manager):
 
     def top_n_players(self, position, metric, n):
         metric = "-" + metric
-        players = self.filter(element_type__singular_name_short=position).order_by(metric)[:n]
+        # players = self.filter(element_type__singular_name_short=position).order_by(metric)[:n]
+        players_for_current_season = self.players_for_current_season()
+        players = players_for_current_season.filter(element_type__singular_name_short=position).order_by(metric)[:n]
         final_data = []
         for player in players:
             final_data.append({

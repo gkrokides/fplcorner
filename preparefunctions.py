@@ -133,6 +133,13 @@ def prepare_fixture_data():
         if Event.objects.filter(event_id=fixture['event']).exists():
             team_h = Team.objects.get(team_id=fixture['team_h'])
             team_a = Team.objects.get(team_id=fixture['team_a'])
+
+            # Because two teams can have the same team_id (not the same code) I'm making sure to take the
+            # team that had the most recent match. I do this because the fixtures from the API
+            # do not come with a team code but only team_id
+            # team_h = Team.objects.filter(team_id=fixture['team_h']).order_by('-kickoff_time')[0]
+            # team_a = Team.objects.filter(team_id=fixture['team_a']).order_by('-kickoff_time')[0]
+
             event = Event.objects.get(event_id=fixture['event'])
             season = Season.objects.get(is_current=True)
 

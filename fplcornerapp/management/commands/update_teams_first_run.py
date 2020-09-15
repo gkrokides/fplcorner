@@ -13,6 +13,14 @@ class Command(BaseCommand):
         cnt = 0
         dlen = len(d)
         for x in d:
+            # Because the team_ids are from 1 to 20 they get repeated each season. So here
+            # i'm making sure to delete the team_id of teams included in the previous season
+            # in order to not break the update_fixture management command.
+            if Team.objects.filter(team_id=x['team_id']).exists():
+                team_to_delete_id = Team.objects.get(team_id=x['team_id'])
+                team_to_delete_id.team_id = None
+                team_to_delete_id.save()
+
             if Team.objects.filter(code=x['code']).exists():
                 Team.objects.filter(code=x['code']).update(**x)
                 # self.stdout.write('"%s" already exists in the database' % x['name'])
