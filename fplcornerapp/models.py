@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.db.models import Count
 
 import six
 from six import python_2_unicode_compatible
@@ -60,14 +61,19 @@ class Player_Type(models.Model):
 
 class PlayerManager(models.Manager):
 
-    def players_for_current_season(self):
+    def players_for_current_season(self, exclude_low_minute_players=False):
         x = Fixture.objects.filter(season__is_current=True)
         teams_a = [t.team_a.pk for t in x]
         teams_h = [t.team_h.pk for t in x]
         teams = teams_a + teams_h
         teams_set = set(teams)
         unique_team_codes = list(teams_set)
-        player_objects_for_current_season = Player.objects.filter(team_code__in=unique_team_codes)
+        minimum_minutes_threshold = 35.0
+        if exclude_low_minute_players:
+            gameweeks_played = Fixture.objects.total_gameweeks_played()
+            player_objects_for_current_season = self.filter(team_code__in=unique_team_codes).filter(player_id__isnull=False).filter(minutes__gte=gameweeks_played * minimum_minutes_threshold)
+        else:
+            player_objects_for_current_season = self.filter(team_code__in=unique_team_codes).filter(player_id__isnull=False)
         return player_objects_for_current_season
 
     def get_per90_stats(self):
@@ -135,10 +141,10 @@ class PlayerManager(models.Manager):
             })
         return lst
 
-    def top_n_players(self, position, metric, n):
+    def top_n_players(self, position, metric, n, exclude_low_minute_players=False):
         metric = "-" + metric
         # players = self.filter(element_type__singular_name_short=position).order_by(metric)[:n]
-        players_for_current_season = self.players_for_current_season()
+        players_for_current_season = self.players_for_current_season(exclude_low_minute_players)
         players = players_for_current_season.filter(element_type__singular_name_short=position).order_by(metric)[:n]
         final_data = []
         for player in players:
@@ -222,37 +228,37 @@ class Player(models.Model):
 
     def points_per90(self):
         result = 0
-        if self.minutes > 90:
+        if self.minutes >= 90:
             result = float((self.total_points / self.minutes)) * 90.0
         return result
 
     def goals_scored_per90(self):
         result = 0
-        if self.minutes > 90:
+        if self.minutes >= 90:
             result = float((self.goals_scored / self.minutes)) * 90.0
         return result
 
     def threat_per90(self):
         result = 0
-        if self.minutes > 90:
+        if self.minutes >= 90:
             result = float((self.threat / self.minutes)) * 90.0
         return result
 
     def influence_per90(self):
         result = 0
-        if self.minutes > 90:
+        if self.minutes >= 90:
             result = float((self.influence / self.minutes)) * 90.0
         return result
 
     def creativity_per90(self):
         result = 0
-        if self.minutes > 90:
+        if self.minutes >= 90:
             result = float((self.creativity / self.minutes)) * 90.0
         return result
 
     def assists_per90(self):
         result = 0
-        if self.minutes > 90:
+        if self.minutes >= 90:
             result = float((self.assists / self.minutes)) * 90.0
         return result
 
@@ -286,6 +292,12 @@ class FixtureManager(models.Manager):
     def get_current_gameweek_fixtures(self):
         current_matches = self.filter(event__is_current=True)
         return current_matches
+
+    def total_gameweeks_played(self):
+        all = self.filter(season__is_current=True).filter(finished=True)
+        x = all.values('event').annotate(total=Count('event'))
+        total = len(x)
+        return total
 
 
 class Fixture(models.Model):

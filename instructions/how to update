@@ -16,7 +16,7 @@ HOW TO UPDATE NEW SEASON DATA (You run these once. After that you follow the ste
 	"python manage.py update_events"
 
 	5. Update the Player model.
-	"python manage.py update_players"
+	"python manage.py update_players_first_run"
 
 	6. Update the Fixture model.
 	"python manage.py update_fixtures"

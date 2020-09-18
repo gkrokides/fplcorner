@@ -58,8 +58,8 @@ def discover_value(request):
         topn_selected = request.POST["topn"]
         default1 = available_metrics[metric2]
         default2 = available_metrics[metric1]
-        selected_metrics = Player.objects.top_n_players(position, metric2, topn)
-        line_metrics = Player.objects.top_n_players(position, metric2, 50)
+        selected_metrics = Player.objects.top_n_players(position, metric2, topn, exclude_low_minute_players=True)
+        line_metrics = Player.objects.top_n_players(position, metric2, 50, exclude_low_minute_players=True)
         line_data = []
         metric1_humanized = globalsettings.VALUE_METRICS[metric1]
         generate_graph = 1
