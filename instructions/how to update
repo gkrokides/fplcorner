@@ -6,34 +6,44 @@ HOW TO UPDATE NEW SEASON DATA (You run these once. After that you follow the ste
 		2. Open the previous season and un-mark it as current
 
 	2. Update the Team model.
-	"python manage.py update_teams_first_run"
+	"python2 manage.py update_teams_first_run"
 	* A lot of information is not included this year (i.e played, points, wins, losses e.t.c) but these fields are included in the db in case they start reporting them.
 
 	3. Update the Player Types model.
-	"python manage.py update_player_types"
+	"python2 manage.py update_player_types"
 
 	4. Update the Event model (gameweeks).
-	"python manage.py update_events"
+	"python2 manage.py update_events"
 
 	5. Update the Player model.
-	"python manage.py update_players_first_run"
+	"python2 manage.py update_players_first_run"
 
 	6. Update the Fixture model.
-	"python manage.py update_fixtures"
+	"python2 manage.py update_fixtures"
 
+	DEPRECIATED. USE STEP 8
 	7. Update the Player_Fixture_Stat model.
-	"python manage.py update_player_fixture_stats"
+	"python2 manage.py update_player_fixture_stats"
+
+	(THIS WILL REPLACE STEP 7 ABOVE)
+	8. Update the Player_Weekly_Stat model. 
+	"python2 manage.py update_player_weekly_stats"
 
 HOW TO UPDATE GAMEWEEK DATA (Run at the end of each gameweek)
 
 	1. Update the Event model (gameweeks).
-	"python manage.py update_events"
+	"python2 manage.py update_events"
 
 	2. Update the Player model.
-	"python manage.py update_players"
+	"python2 manage.py update_players"
 
 	3. Update the Fixture model.
-	"python manage.py update_fixtures"
+	"python2 manage.py update_fixtures"
 
+	DEPRECIATED. USE STEP 5
 	4. Update the Player_Fixture_Stat model.
-	"python manage.py update_player_fixture_stats"
+	"python2 manage.py update_player_fixture_stats"
+
+	(THIS WILL REPLACE STEP 4 ABOVE)
+	5. Update the Player_Weekly_Stat model. 
+	"python2 manage.py update_player_weekly_stats"

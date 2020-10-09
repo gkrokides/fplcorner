@@ -413,3 +413,27 @@ class Player_Fixture_Stat(models.Model):
 
     def __str__(self):
         return "{0} {1} {2}".format(self.player.first_name, self.player.second_name, self.fixture.kickoff_time)
+
+
+class Player_Weekly_Stat(models.Model):
+    player = models.ForeignKey('Player', blank=True, null=True)
+    fixture = models.ForeignKey('Fixture', blank=True, null=True)
+    season = models.ForeignKey('Season', blank=True, null=True)
+    minutes = models.FloatField(null=True, blank=True)
+    goals_scored = models.IntegerField(null=True, blank=True)
+    assists = models.IntegerField(null=True, blank=True)
+    clean_sheets = models.IntegerField(null=True, blank=True)
+    goals_conceded = models.IntegerField(null=True, blank=True)
+    bonus = models.IntegerField(null=True, blank=True)
+    bps = models.FloatField(null=True, blank=True)
+    influence = models.FloatField(null=True, blank=True)
+    creativity = models.FloatField(null=True, blank=True)
+    threat = models.FloatField(null=True, blank=True)
+    ict_index = models.FloatField(null=True, blank=True)
+    total_points = models.IntegerField(null=True, blank=True)
+
+    class Meta:
+        ordering = ["fixture"]
+
+    def __str__(self):
+        return "{0} {1} {2}".format(self.player.first_name, self.player.second_name, self.fixture.kickoff_time)

@@ -78,3 +78,16 @@ def previous_event():
         if x['is_previous']:
             event_id = x['id']
     return event_id
+
+# get all data from the fpl event endpoint
+def fpl_event_data(event):
+
+    requestString = globalsettings.API_EVENT
+    requestString_final = requestString + str(event) + "/live"
+
+    response = requests.get(requestString_final)
+    smData = response.json()
+    dataJson = json.dumps(smData, sort_keys=True, indent=4)
+    fpl_data = json.loads(dataJson)
+
+    return fpl_data

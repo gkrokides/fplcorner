@@ -155,42 +155,26 @@ def success(request):
     return render(request, 'fplcornerapp/success.html')
 
 
-def fstats(request):
-    allplayers = Player.objects.values_list('id', 'first_name', 'second_name')
-    selected_data = []
-    final_data = []
-    if request.method == "POST":
-        selected_player_id = request.POST["player"]
-        lookback = int(request.POST["num_input"]) + 1
-        # selected_data = Player_Fixture_Stat.objects.filter(player__id=selected_player_id).order_by('-fixture__kickoff_time')[:lookback]
-        # for x in range(0, len(selected_data) - 1):
-        #     final_data.append({
-        #         'first_name': selected_data[x].player.first_name,
-        #         'second_name': selected_data[x].player.second_name,
-        #         'gameweek': selected_data[x].fixture.event.name,
-        #         'date': selected_data[x].fixture.kickoff_time,
-        #         'team_h': selected_data[x].fixture.team_h.name,
-        #         'team_a': selected_data[x].fixture.team_a.name,
-        #         'minutes': selected_data[x].minutes - selected_data[x + 1].minutes,
-        #         'goals_scored': selected_data[x].goals_scored - selected_data[x + 1].goals_scored,
-        #         'assists': selected_data[x].assists - selected_data[x + 1].assists,
-        #         'creativity': selected_data[x].creativity - selected_data[x + 1].creativity,
-        #         'influence': selected_data[x].influence - selected_data[x + 1].influence,
-        #         'threat': selected_data[x].threat - selected_data[x + 1].threat
-        #     })
-        final_data = Player_Fixture_Stat.objects.get_player_performance_per_gw(selected_player_id, lookback)
+# def fstats(request):
+#     allplayers = Player.objects.values_list('id', 'first_name', 'second_name')
+#     selected_data = []
+#     final_data = []
+#     if request.method == "POST":
+#         selected_player_id = request.POST["player"]
+#         lookback = int(request.POST["num_input"]) + 1
+#         final_data = Player_Fixture_Stat.objects.get_player_performance_per_gw(selected_player_id, lookback)
 
-    return render(request, 'fplcornerapp/fstats.html', {
-        'allplayers': allplayers,
-        'selected_data': selected_data,
-        'final_data': final_data
-    })
+#     return render(request, 'fplcornerapp/fstats.html', {
+#         'allplayers': allplayers,
+#         'selected_data': selected_data,
+#         'final_data': final_data
+#     })
 
 
-def test(request):
-    return render(request, 'fplcornerapp/test.html')
+# def test(request):
+#     return render(request, 'fplcornerapp/test.html')
 
 
-def mstats(request):
-    fixtures = Fixture.objects.all().order_by('-kickoff_time')
-    return render(request, 'fplcornerapp/mstats.html', {'fixtures': fixtures})
+# def mstats(request):
+#     fixtures = Fixture.objects.all().order_by('-kickoff_time')
+#     return render(request, 'fplcornerapp/mstats.html', {'fixtures': fixtures})

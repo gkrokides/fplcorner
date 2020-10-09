@@ -245,3 +245,35 @@ def prepare_fixture_stats_data():
                     'cost_change_event': player.cost_change_event
                 })
     return final_data
+
+
+def prepare_player_weekly_data(evnt):
+    all_player_data = fpl_event_data(evnt)["elements"]
+    final_data = []
+
+    for player in all_player_data:
+        if len(player['explain']) > 0:
+            player_obj = Player.objects.get(player_id=player['id'])
+            fixture_obj = Fixture.objects.filter(fixture_id=player['explain'][0]['fixture'], season__is_current=True)[0]
+            season_obj = Season.objects.filter(is_current=True)[0]
+
+            final_data.append({
+                'player': player_obj,
+                'fixture': fixture_obj,
+                'season': season_obj,
+                'minutes': player['stats']['minutes'],
+                'goals_scored': player['stats']['goals_scored'],
+                'assists': player['stats']['assists'],
+                'clean_sheets': player['stats']['clean_sheets'],
+                'goals_conceded': player['stats']['goals_conceded'],
+                'bonus': player['stats']['bonus'],
+                'bps': player['stats']['bps'],
+                'influence': float(player['stats']['influence']),
+                'creativity': float(player['stats']['creativity']),
+                'threat': float(player['stats']['threat']),
+                'ict_index': float(player['stats']['ict_index']),
+                'total_points': player['stats']['total_points']
+
+            })
+
+    return final_data
