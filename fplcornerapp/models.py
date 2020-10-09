@@ -415,6 +415,7 @@ class Player_Fixture_Stat(models.Model):
         return "{0} {1} {2}".format(self.player.first_name, self.player.second_name, self.fixture.kickoff_time)
 
 
+# depreciated. Please delete
 class Player_Weekly_Stat(models.Model):
     player = models.ForeignKey('Player', blank=True, null=True)
     fixture = models.ForeignKey('Fixture', blank=True, null=True)
