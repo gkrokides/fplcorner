@@ -343,79 +343,78 @@ class Fixture(models.Model):
 
 
 # FIXTURE STATS
-class PFSManager(models.Manager):
-    # Returns a set of all players related to the given fixture
-    def get_player_performance_per_gw(self, pid, lookback):
-        final_data = []
-        selected_data = self.filter(player__id=pid).order_by('-fixture__kickoff_time')[:lookback]
-        for x in range(0, len(selected_data) - 1):
-            final_data.append({
-                'first_name': selected_data[x].player.first_name,
-                'second_name': selected_data[x].player.second_name,
-                'gameweek': selected_data[x].fixture.event.name,
-                'date': selected_data[x].fixture.kickoff_time,
-                'team_h': selected_data[x].fixture.team_h.name,
-                'team_a': selected_data[x].fixture.team_a.name,
-                'minutes': selected_data[x].minutes - selected_data[x + 1].minutes,
-                'goals_scored': selected_data[x].goals_scored - selected_data[x + 1].goals_scored,
-                'assists': selected_data[x].assists - selected_data[x + 1].assists,
-                'creativity': selected_data[x].creativity - selected_data[x + 1].creativity,
-                'influence': selected_data[x].influence - selected_data[x + 1].influence,
-                'threat': selected_data[x].threat - selected_data[x + 1].threat
-            })
-        return final_data
+# class PFSManager(models.Manager):
+#     # Returns a set of all players related to the given fixture
+#     def get_player_performance_per_gw(self, pid, lookback):
+#         final_data = []
+#         selected_data = self.filter(player__id=pid).order_by('-fixture__kickoff_time')[:lookback]
+#         for x in range(0, len(selected_data) - 1):
+#             final_data.append({
+#                 'first_name': selected_data[x].player.first_name,
+#                 'second_name': selected_data[x].player.second_name,
+#                 'gameweek': selected_data[x].fixture.event.name,
+#                 'date': selected_data[x].fixture.kickoff_time,
+#                 'team_h': selected_data[x].fixture.team_h.name,
+#                 'team_a': selected_data[x].fixture.team_a.name,
+#                 'minutes': selected_data[x].minutes - selected_data[x + 1].minutes,
+#                 'goals_scored': selected_data[x].goals_scored - selected_data[x + 1].goals_scored,
+#                 'assists': selected_data[x].assists - selected_data[x + 1].assists,
+#                 'creativity': selected_data[x].creativity - selected_data[x + 1].creativity,
+#                 'influence': selected_data[x].influence - selected_data[x + 1].influence,
+#                 'threat': selected_data[x].threat - selected_data[x + 1].threat
+#             })
+#         return final_data
 
 
-class Player_Fixture_Stat(models.Model):
-    fixture = models.ForeignKey('Fixture', blank=True, null=True)
-    player = models.ForeignKey('Player', blank=True, null=True)
-    value = models.IntegerField(null=True, blank=True)
-    now_cost = models.FloatField(null=True, blank=True)
-    total_points = models.IntegerField(null=True, blank=True)
-    points_per_game = models.FloatField(null=True, blank=True)
-    bonus = models.IntegerField(null=True, blank=True)
-    bps = models.FloatField(null=True, blank=True)
-    minutes = models.FloatField(null=True, blank=True)
-    goals_scored = models.IntegerField(null=True, blank=True)
-    assists = models.IntegerField(null=True, blank=True)
-    goals_conceded = models.IntegerField(null=True, blank=True)
-    clean_sheets = models.IntegerField(null=True, blank=True)
-    saves = models.IntegerField(null=True, blank=True)
-    yellow_cards = models.IntegerField(null=True, blank=True)
-    red_cards = models.IntegerField(null=True, blank=True)
-    form = models.FloatField(null=True, blank=True)
-    value_form = models.FloatField(null=True, blank=True)
-    value_season = models.FloatField(null=True, blank=True)
-    ep_this = models.FloatField(null=True, blank=True)
-    ep_next = models.FloatField(null=True, blank=True)
-    influence = models.FloatField(null=True, blank=True)
-    creativity = models.FloatField(null=True, blank=True)
-    threat = models.FloatField(null=True, blank=True)
-    ict_index = models.FloatField(null=True, blank=True)
-    selected_by_percent = models.FloatField(null=True, blank=True)
-    transfers_in = models.IntegerField(null=True, blank=True)
-    transfers_out = models.IntegerField(null=True, blank=True)
-    transfers_in_event = models.IntegerField(null=True, blank=True)
-    transfers_out_event = models.IntegerField(null=True, blank=True)
-    cost_change_start = models.FloatField(null=True, blank=True)
-    cost_change_event_fall = models.FloatField(null=True, blank=True)
-    cost_change_start_fall = models.FloatField(null=True, blank=True)
-    cost_change_event = models.FloatField(null=True, blank=True)
-    objects = PFSManager()
+# class Player_Fixture_Stat(models.Model):
+#     fixture = models.ForeignKey('Fixture', blank=True, null=True)
+#     player = models.ForeignKey('Player', blank=True, null=True)
+#     value = models.IntegerField(null=True, blank=True)
+#     now_cost = models.FloatField(null=True, blank=True)
+#     total_points = models.IntegerField(null=True, blank=True)
+#     points_per_game = models.FloatField(null=True, blank=True)
+#     bonus = models.IntegerField(null=True, blank=True)
+#     bps = models.FloatField(null=True, blank=True)
+#     minutes = models.FloatField(null=True, blank=True)
+#     goals_scored = models.IntegerField(null=True, blank=True)
+#     assists = models.IntegerField(null=True, blank=True)
+#     goals_conceded = models.IntegerField(null=True, blank=True)
+#     clean_sheets = models.IntegerField(null=True, blank=True)
+#     saves = models.IntegerField(null=True, blank=True)
+#     yellow_cards = models.IntegerField(null=True, blank=True)
+#     red_cards = models.IntegerField(null=True, blank=True)
+#     form = models.FloatField(null=True, blank=True)
+#     value_form = models.FloatField(null=True, blank=True)
+#     value_season = models.FloatField(null=True, blank=True)
+#     ep_this = models.FloatField(null=True, blank=True)
+#     ep_next = models.FloatField(null=True, blank=True)
+#     influence = models.FloatField(null=True, blank=True)
+#     creativity = models.FloatField(null=True, blank=True)
+#     threat = models.FloatField(null=True, blank=True)
+#     ict_index = models.FloatField(null=True, blank=True)
+#     selected_by_percent = models.FloatField(null=True, blank=True)
+#     transfers_in = models.IntegerField(null=True, blank=True)
+#     transfers_out = models.IntegerField(null=True, blank=True)
+#     transfers_in_event = models.IntegerField(null=True, blank=True)
+#     transfers_out_event = models.IntegerField(null=True, blank=True)
+#     cost_change_start = models.FloatField(null=True, blank=True)
+#     cost_change_event_fall = models.FloatField(null=True, blank=True)
+#     cost_change_start_fall = models.FloatField(null=True, blank=True)
+#     cost_change_event = models.FloatField(null=True, blank=True)
+#     objects = PFSManager()
 
-    class Meta:
-        ordering = ["fixture"]
-        verbose_name = "Player Fixture_Stat"
-        verbose_name_plural = "Player Fixture_Stats"
+#     class Meta:
+#         ordering = ["fixture"]
+#         verbose_name = "Player Fixture_Stat"
+#         verbose_name_plural = "Player Fixture_Stats"
 
-    # def __str__(self):
-    #     return str(self.fixture)
+#     # def __str__(self):
+#     #     return str(self.fixture)
 
-    def __str__(self):
-        return "{0} {1} {2}".format(self.player.first_name, self.player.second_name, self.fixture.kickoff_time)
+#     def __str__(self):
+#         return "{0} {1} {2}".format(self.player.first_name, self.player.second_name, self.fixture.kickoff_time)
 
 
-# depreciated. Please delete
 class Player_Weekly_Stat(models.Model):
     player = models.ForeignKey('Player', blank=True, null=True)
     fixture = models.ForeignKey('Fixture', blank=True, null=True)

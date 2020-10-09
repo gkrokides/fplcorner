@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from fplcorner.settings import globalsettings
-from .models import Player, Player_Fixture_Stat, Fixture
+from .models import Player, Fixture
 from .forms import ContactForm
 from django.core.mail import send_mail, BadHeaderError
 import json
