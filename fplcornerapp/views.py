@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from fplcorner.settings import globalsettings
-from .models import Player, Fixture
+from .models import Player, Fixture, Player_Last_Six_Stat
 from .forms import ContactForm
 from django.core.mail import send_mail, BadHeaderError
 import json
@@ -15,7 +15,8 @@ def home(request):
 
 
 def player_comparison(request):
-    graph_data = Player.objects.get_per90_stats_normalized()
+    # graph_data = Player.objects.get_per90_stats_normalized()
+    graph_data = Player_Last_Six_Stat.objects.get_per90_stats_normalized()
     graph_data_json = json.dumps(graph_data)
     return render(request, 'fplcornerapp/player_comparison.html',
                   {'graph_data': graph_data,

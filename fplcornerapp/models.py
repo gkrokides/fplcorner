@@ -347,6 +347,7 @@ class Player_Weekly_Stat_Manager(models.Manager):
     def get_player_stats_for_last_n_games(self, player_id, n):
         current_season = Season.objects.filter(is_current=True)[0].pk
         player_obj = Player.objects.get(pk=player_id)
+        season_obj = Season.objects.get(pk=current_season)
         player_total_minutes = self.filter(player_id=player_id)\
             .filter(season_id=current_season)\
             .values('player_id')\
@@ -373,6 +374,7 @@ class Player_Weekly_Stat_Manager(models.Manager):
 
         dictt = {
             'player': player_obj,
+            'season': season_obj,
             'limited_minutes': limited_minutes
         }
 
@@ -416,8 +418,60 @@ class Player_Weekly_Stat(models.Model):
         return "{0} {1} {2}".format(self.player.first_name, self.player.second_name, self.fixture.kickoff_time)
 
 
+class Player_Last_Six_Stat_Manager(models.Manager):
+    def get_per90_stats_normalized(self):
+        lst = []
+        points_per90_lst = []
+        goals_per_90_lst = []
+        threat_per90_lst = []
+        influence_per90_lst = []
+        creativity_per90_lst = []
+        assists_per90_lst = []
+        points_per90_max = 0
+        goals_per_90_max = 0
+        threat_per90_max = 0
+        influence_per90_max = 0
+        creativity_per90_max = 0
+        assists_per90_max = 0
+
+        # players = self.all()
+        players = self.filter(season__is_current=True)
+        for player in players:
+            points_per90_lst.append(player.points_per90())
+            goals_per_90_lst.append(player.goals_scored_per90())
+            threat_per90_lst.append(player.threat_per90())
+            influence_per90_lst.append(player.influence_per90())
+            creativity_per90_lst.append(player.creativity_per90())
+            assists_per90_lst.append(player.assists_per90())
+
+        points_per90_max = max(points_per90_lst)
+        goals_per_90_max = max(goals_per_90_lst)
+        threat_per90_max = max(threat_per90_lst)
+        influence_per90_max = max(influence_per90_lst)
+        creativity_per90_max = max(creativity_per90_lst)
+        assists_per90_max = max(assists_per90_lst)
+
+        for player in players:
+            lst.append({
+                'player_id': player.player_id,
+                'first_name': player.player.first_name,
+                'last_name': player.player.second_name,
+                'web_name': player.player.web_name,
+                'data': [
+                    player.points_per90() / points_per90_max,
+                    player.goals_scored_per90() / goals_per_90_max,
+                    player.threat_per90() / threat_per90_max,
+                    player.influence_per90() / influence_per90_max,
+                    player.creativity_per90() / creativity_per90_max,
+                    player.assists_per90() / assists_per90_max
+                ]
+            })
+        return lst
+
+
 class Player_Last_Six_Stat(models.Model):
     player = models.ForeignKey('Player', blank=True, null=True)
+    season = models.ForeignKey('Season', blank=True, null=True)
     minutes = models.FloatField(null=True, blank=True)
     limited_minutes = models.BooleanField(default=False)
     goals_scored = models.IntegerField(null=True, blank=True)
@@ -432,6 +486,43 @@ class Player_Last_Six_Stat(models.Model):
     ict_index = models.FloatField(null=True, blank=True)
     total_points = models.IntegerField(null=True, blank=True)
     total_games = models.IntegerField(null=True, blank=True)
+    objects = Player_Last_Six_Stat_Manager()
+
+    def points_per90(self):
+        result = 0
+        if self.minutes >= 90:
+            result = float((self.total_points / self.minutes)) * 90.0
+        return result
+
+    def goals_scored_per90(self):
+        result = 0
+        if self.minutes >= 90:
+            result = float((self.goals_scored / self.minutes)) * 90.0
+        return result
+
+    def threat_per90(self):
+        result = 0
+        if self.minutes >= 90:
+            result = float((self.threat / self.minutes)) * 90.0
+        return result
+
+    def influence_per90(self):
+        result = 0
+        if self.minutes >= 90:
+            result = float((self.influence / self.minutes)) * 90.0
+        return result
+
+    def creativity_per90(self):
+        result = 0
+        if self.minutes >= 90:
+            result = float((self.creativity / self.minutes)) * 90.0
+        return result
+
+    def assists_per90(self):
+        result = 0
+        if self.minutes >= 90:
+            result = float((self.assists / self.minutes)) * 90.0
+        return result
 
     class Meta:
         ordering = ["player"]
