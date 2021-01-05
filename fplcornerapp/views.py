@@ -27,11 +27,13 @@ def player_comparison(request):
 def discover_value(request):
     # players = Player.objects.players_for_current_season().values()
     # players = Player.objects.all().values()
-    available_metrics = globalsettings.VALUE_METRICS
-    topn = ''
+    available_metrics = globalsettings.VALUE_METRICS_LAST6
+    # topn = ''
     position = 'MID'
-    metric1 = 'now_cost'
-    metric2 = 'total_points'
+    metric1 = 'total_points'
+    metric2 = 'now_cost'
+    last6box = ''
+    excludeBox = ''
     # default_top_n_metric = 'total_points'
     selected_metrics = []
     line_metrics = []
@@ -41,7 +43,7 @@ def discover_value(request):
     default1 = available_metrics['now_cost']
     default2 = available_metrics['total_points']
     generate_graph = 0
-    topn_selected = "10"
+    # topn_selected = "10"
     median_x_list = []
     median_y_list = []
     median_x = 0
@@ -51,18 +53,27 @@ def discover_value(request):
     rl_json = []
     r_sqr = 0.0
     metric1_humanized = ''
+    exclude_low_minute = False
     if request.method == "POST":
-        topn = int(request.POST["topn"])
+        # topn = int(request.POST["topn"])
         position = request.POST["pos"]
         metric1 = request.POST["metric1"]
         metric2 = request.POST["metric2"]
-        topn_selected = request.POST["topn"]
+        # topn_selected = request.POST["topn"]
         default1 = available_metrics[metric2]
         default2 = available_metrics[metric1]
-        selected_metrics = Player.objects.top_n_players(position, metric2, topn, exclude_low_minute_players=True)
-        line_metrics = Player.objects.top_n_players(position, metric2, 50, exclude_low_minute_players=True)
+        if "defaultCheck3" in request.POST:
+            exclude_low_minute = True
+            excludeBox = "checked"
+        if "defaultCheck2" in request.POST:
+            selected_metrics = Player_Last_Six_Stat.objects.get_players_by_position(position, exclude_low_minute_players=exclude_low_minute)
+            line_metrics = Player_Last_Six_Stat.objects.get_players_by_position(position, exclude_low_minute_players=exclude_low_minute)
+            last6box = "checked"
+        else:
+            selected_metrics = Player.objects.top_n_players(position, metric2, 1000, exclude_low_minute_players=exclude_low_minute)
+            line_metrics = Player.objects.top_n_players(position, metric2, 1000, exclude_low_minute_players=exclude_low_minute)
         line_data = []
-        metric1_humanized = globalsettings.VALUE_METRICS[metric1]
+        metric1_humanized = globalsettings.VALUE_METRICS_LAST6[metric1]
         generate_graph = 1
     for p in line_metrics:
         line_data.append({
@@ -107,7 +118,7 @@ def discover_value(request):
     return render(request, 'fplcornerapp/discover_value.html',
                   {
                       'available_metrics': available_metrics,
-                      'topn': topn,
+                      # 'topn': topn,
                       'position': position,
                       'metric1': metric1,
                       'metric2': metric2,
@@ -119,13 +130,15 @@ def discover_value(request):
                       'default2': default2,
                       'graph_title': graph_title,
                       'generate_graph': generate_graph,
-                      'topn_selected': topn_selected,
+                      # 'topn_selected': topn_selected,
                       'median_x': median_x,
                       'median_y': median_y,
                       'regression_line': regression_line,
                       'graph_data': graph_data,
                       'rl': rl_json,
-                      'r_sqr': r_sqr
+                      'r_sqr': r_sqr,
+                      'last6box': last6box,
+                      'excludeBox': excludeBox
                   })
 
 

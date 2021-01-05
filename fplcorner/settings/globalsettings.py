@@ -23,3 +23,20 @@ VALUE_METRICS = {
     'ict_index': 'ICT Index',
     'selected_by_percent': 'Selected by (%)'
 }
+
+VALUE_METRICS_LAST6 = {
+    'now_cost': 'Cost',
+    'total_points': 'Points',
+    'bonus': 'Bonus',
+    'bps': 'Bps',
+    'goals_scored': 'Goals Scored',
+    'assists': 'Assists',
+    'goals_conceded': 'Goals Conceded',
+    'clean_sheets': 'Clean Sheets',
+    'form': 'Form',
+    'influence': 'Influence',
+    'creativity': 'Creativity',
+    'threat': 'Threat',
+    'ict_index': 'ICT Index',
+    'selected_by_percent': 'Selected by (%)'
+}

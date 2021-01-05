@@ -33,19 +33,19 @@
 <div class="card card-body fplbackground bordered-selector p-4">
     <form method="POST" class="">{% csrf_token %}
         <div class="row justify-content-center">
+            {# <div class="p-2"> #}
+                {# <select class="selectpicker" data-live-search="true" data-width="auto" name="topn" id="topn"> #}
+                  {# <option value="10">Top 10</option> #}
+                  {# <option value="15">Top 15</option> #}
+                  {# <option value="20">Top 20</option> #}
+                  {# <option value="30">Top 30</option> #}
+                {# </select> #}
+            {# </div> #}
             <div class="p-2">
-                <select class="selectpicker" data-live-search="true" data-width="auto" name="topn" id="topn">
-                  <option value="10">Top 10</option>
-                  <option value="15">Top 15</option>
-                  <option value="20">Top 20</option>
-                  <option value="30">Top 30</option>
-                </select>
-            </div>
-            <div class="p-2">
-                <select class="selectpicker" data-live-search="true" data-width="auto" name="pos" id="pos" onChange="">
+                <select class="selectpicker" data-live-search="false" data-width="auto" name="pos" id="pos">
                   <option value="GKP">Goalkeepers</option>
                   <option value="DEF">Defenders</option>
-                  <option value="MID">Midfielders</option>
+                  <option value="MID" selected>Midfielders</option>
                   <option value="FWD">Forwards</option>
                 </select>
             </div>
@@ -64,7 +64,7 @@
                 </select>
             </div>
             <div class="mt-4">
-                vs.
+                vs
             </div>
             <div class="p-2 justify-content-center">
                 <select class="selectpicker" data-live-search="true" data-width="auto" name="metric1" id="m_one" onChange="getChartTitle();">
@@ -80,16 +80,44 @@
                 </select>
             </div>
         </div>
-        {% if generate_graph %}
-        <div class="row justify-content-center p-2">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onChange="chooseGraph()">
-                <label class="form-check-label" for="defaultCheck1">
-                Show Expected {{ metric1_humanized }} line
-                </label>
+        {# {% if generate_graph %} #}
+        {# <div class="row justify-content-center p-2"> #}
+            {# <div class="form-check"> #}
+                {# <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onChange="chooseGraph()"> #}
+                {# <label class="form-check-label" for="defaultCheck1"> #}
+                {# Show Expected {{ metric1_humanized }} line #}
+                {# </label> #}
+            {# </div> #}
+        {# </div>  #}
+        {# {% endif %} #}
+
+        <div class="p-1">
+            <div class="card card-body fplbackground bordered-selector p-1 mx-auto" style="width: 22rem;">
+                <div class="row justify-content-center p-1" style="font-size: 14px;">Additional Options</div>
+
+                {# <div class="row justify-content-left p-0"> #}
+                    <div class="custom-control custom-checkbox custom-checkbox-green ml-4">
+                        <input class="custom-control-input custom-control-input-green" type="checkbox" value="" id="defaultCheck2" name = "defaultCheck2" {{last6box}}>
+                        <label class="custom-control-label" for="defaultCheck2" style="font-size: 14px;">
+                        Re-calculate based on last 6 games
+                        </label>
+                    </div>
+                {# </div> #}
+
+                {# <div class="row justify-content-left p-0"> #}
+                    <div class="custom-control custom-checkbox custom-checkbox-green ml-4">
+                        <input class="custom-control-input custom-control-input-green" type="checkbox" value="" id="defaultCheck3" name="defaultCheck3" {{excludeBox}}>
+                        <label class="custom-control-label" for="defaultCheck3" style="font-size: 14px;">
+                        Exclude players with limited play time
+                        </label>
+                    </div>
+                {# </div> #}
+
+
+                <div class="p-2 ml-3" style="font-size: 11px; color:white;">* Hit the 'Discover' button again after you make your choices.</div>
             </div>
-        </div> 
-        {% endif %}
+        </div>
+        
         <div class="row justify-content-center mt-3">
             <button type="submit" class="btn fplbackground-inverse">Discover</button>
         </div>
@@ -104,123 +132,18 @@
     <div id="mainGraph">
         <div class="col-12">
             <div class="">
-               <canvas id="myChartNoLine" height="350"></canvas> 
+               <canvas id="scatter" height="350"></canvas> 
             </div>
             
         </div>
     </div>
 
-     {% comment %} 
-    <div class="p-2 row justify-content-center">
-            <div class="col-12">
-                <div class="">
-                   <canvas id="scatter" height="350"></canvas>
-                </div>
-
-            </div>
-        </div>
-
-        <div id="mainGraph"></div> 
-    {% endcomment %}     
-
-       
-       
-	
-{% comment %}       
-	<script type="text/javascript">
-        
-        if ({{ generate_graph }} > 0){
-            var ctx = document.getElementById("myChart").getContext('2d');
-            var chartTitle = getChartTitle();
-            var labels = {{ graph_labels_json|safe }};
-            var data = {{ graph_data_json|safe }};
-            var medianX = {{ median_x }};
-            var medianY = {{ median_y }};
-            var primaryColor = '#3d195b';
-            var secondaryColor = '#00ff85';
-            var primaryColorTransparent = 'rgba(61,25,91,0.2)';
-            var secondaryColorTransparent = 'rgba(0, 255, 133,0.3)';
-            
-            var options = {responsive: true, // Instruct chart js to respond nicely.
-                maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
-                tooltips: {
-                    callbacks: {
-                    label: function(tooltipItem, data) {
-                       var label = data.labels[tooltipItem.index];
-                       return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
-                    }
-                 }
-                },
-                scales: {
-                    yAxes: [{
-                      scaleLabel: {
-                        display: true,
-                        labelString: "{{ default2 }}"
-                      },
-                      id: 'y-axis-0'
-                    }],
-                    xAxes: [{
-                      scaleLabel: {
-                        display: true,
-                        labelString: "{{ default1 }}"
-                      },
-                      id: 'x-axis-0'
-                    }]
-                },
-                title: {
-                    display: true,
-                    text: chartTitle,
-                    fontSize: 15
-                },
-                legend: {
-                    display: true,
-                    position: 'bottom'
-                },
-                annotation: {
-                  annotations: [{
-                    type: 'line',
-                    mode: 'horizontal',
-                    scaleID: 'y-axis-0',
-                    value: medianY,
-                    // borderColor: 'rgba(255,99,132,1)',
-                    borderColor: primaryColor,
-                    borderWidth: 2,
-                  },{
-                    type: 'line',
-                    mode: 'vertical',
-                    scaleID: 'x-axis-0',
-                    value: medianX,
-                    // borderColor: 'rgba(255,99,132,1)',
-                    borderColor: primaryColor,
-                    borderWidth: 2,
-                  }]
-                }
-            };
-
-            var myChart = new Chart(ctx, {
-                type: 'bubble',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                    label: 'Player Data', // Name the series
-                    data: data,
-                    borderColor: secondaryColor,
-                    backgroundColor: secondaryColorTransparent,
-                    borderWidth: 2,
-                    hoverBorderWidth: 2,
-                    radius: 6,
-                    hoverRadius: 5
-                    }]
-                },
-                options: options
-        }); 
-        }
-	</script>
-     
 
     <script type="text/javascript">
+        
+        if ({{ generate_graph }} > 0) {
             var ctx = document.getElementById("scatter").getContext('2d');
-            var lineCheckbox = document.getElementById("defaultCheck1")
+            // var lineCheckbox = document.getElementById("defaultCheck1");
             var rsqr = {{ r_sqr|floatformat:2 }};
             var chartTitle = getChartTitle().concat(' Regression (R\u00B2=', rsqr, ')');
             var labels = {{ graph_labels_json|safe }};
@@ -281,7 +204,7 @@
                     value: medianY,
                     // borderColor: 'rgba(255,99,132,1)',
                     borderColor: primaryColorTransparent,
-                    borderWidth: 2,
+                    borderWidth: 1,
                   },{
                     type: 'line',
                     mode: 'vertical',
@@ -289,13 +212,11 @@
                     value: medianX,
                     // borderColor: 'rgba(255,99,132,1)',
                     borderColor: primaryColorTransparent,
-                    borderWidth: 2,
+                    borderWidth: 1,
                   }]
                 }
             };
 
-            var myChart = new Chart(ctx, {type: 'line', data: data, options: options});
-            myChart.destroy();
             var myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -307,7 +228,8 @@
                         fill: false,
                         backgroundColor: "rgba(218,83,79, .7)",
                         borderColor: "rgba(218,83,79, .7)",
-                        pointRadius: 0
+                        pointRadius: 0,
+                        borderWidth: 1.5
 
                     }, {
                         type: 'bubble',
@@ -315,109 +237,19 @@
                         data: data,
                         borderColor: secondaryColor,
                         backgroundColor: secondaryColorTransparent,
-                        borderWidth: 2,
-                        hoverBorderWidth: 2,
-                        radius: 6,
+                        borderWidth: 0,
+                        hoverBorderWidth: 0,
+                        radius: 3,
                         hoverRadius: 5
                     }]
                 },
                 options: options
             });
-	</script>
-{% endcomment %} 
-
-    <script type="text/javascript">
-        
-        if ({{ generate_graph }} > 0){
-            var ctx = document.getElementById("myChartNoLine").getContext('2d');
-            var chartTitle = getChartTitle();
-            var labels = {{ graph_labels_json|safe }};
-            var data = {{ graph_data_json|safe }};
-            var medianX = {{ median_x }};
-            var medianY = {{ median_y }};
-            var primaryColor = '#3d195b';
-            var secondaryColor = '#00ff85';
-            var primaryColorTransparent = 'rgba(61,25,91,0.2)';
-            var secondaryColorTransparent = 'rgba(0, 255, 133,0.3)';
-            
-            var options = {responsive: true, // Instruct chart js to respond nicely.
-                maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
-                tooltips: {
-                    callbacks: {
-                    label: function(tooltipItem, data) {
-                       var label = data.labels[tooltipItem.index];
-                       return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
-                    }
-                 }
-                },
-                scales: {
-                    yAxes: [{
-                      scaleLabel: {
-                        display: true,
-                        labelString: "{{ default2 }}"
-                      },
-                      id: 'y-axis-0'
-                    }],
-                    xAxes: [{
-                      scaleLabel: {
-                        display: true,
-                        labelString: "{{ default1 }}"
-                      },
-                      id: 'x-axis-0'
-                    }]
-                },
-                title: {
-                    display: true,
-                    text: chartTitle,
-                    fontSize: 15
-                },
-                legend: {
-                    display: true,
-                    position: 'bottom'
-                },
-                annotation: {
-                  annotations: [{
-                    type: 'line',
-                    mode: 'horizontal',
-                    scaleID: 'y-axis-0',
-                    value: medianY,
-                    // borderColor: 'rgba(255,99,132,1)',
-                    borderColor: primaryColor,
-                    borderWidth: 2,
-                  },{
-                    type: 'line',
-                    mode: 'vertical',
-                    scaleID: 'x-axis-0',
-                    value: medianX,
-                    // borderColor: 'rgba(255,99,132,1)',
-                    borderColor: primaryColor,
-                    borderWidth: 2,
-                  }]
-                }
-            };
-
-            var myChart = new Chart(ctx, {
-                type: 'bubble',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                    label: 'Player Data', // Name the series
-                    data: data,
-                    borderColor: secondaryColor,
-                    backgroundColor: secondaryColorTransparent,
-                    borderWidth: 2,
-                    hoverBorderWidth: 2,
-                    radius: 6,
-                    hoverRadius: 5
-                    }]
-                },
-                options: options
-        }); 
-        }
+        } 
     </script>
 
     <script type="text/javascript">
-        document.getElementById('topn').value="{{ topn_selected|safe }}";
+        // document.getElementById('topn').value="{{ topn_selected|safe }}";
         document.getElementById('pos').value="{{ position|safe }}";
         document.getElementById('m_one').value="{{ metric1|safe }}";
         document.getElementById('m_two').value="{{ metric2|safe }}";
@@ -425,233 +257,234 @@
      </script>
 
      <script type="text/javascript">
-     function generateGraphNoLine(){
-        if ({{ generate_graph }} > 0){
-            var ctx = document.getElementById("myChartNoLine").getContext('2d');
-            var chartTitle = getChartTitle();
-            var labels = {{ graph_labels_json|safe }};
-            var data = {{ graph_data_json|safe }};
-            var medianX = {{ median_x }};
-            var medianY = {{ median_y }};
-            var primaryColor = '#3d195b';
-            var secondaryColor = '#00ff85';
-            var primaryColorTransparent = 'rgba(61,25,91,0.2)';
-            var secondaryColorTransparent = 'rgba(0, 255, 133,0.3)';
+     // function generateGraphNoLine(){
+     //    if ({{ generate_graph }} > 0){
+     //        var ctx = document.getElementById("myChartNoLine").getContext('2d');
+     //        var chartTitle = getChartTitle();
+     //        var labels = {{ graph_labels_json|safe }};
+     //        var data = {{ graph_data_json|safe }};
+     //        var medianX = {{ median_x }};
+     //        var medianY = {{ median_y }};
+     //        var primaryColor = '#3d195b';
+     //        var secondaryColor = '#00ff85';
+     //        var primaryColorTransparent = 'rgba(61,25,91,0.2)';
+     //        var secondaryColorTransparent = 'rgba(0, 255, 133,0.3)';
             
-            var options = {responsive: true, // Instruct chart js to respond nicely.
-                maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
-                tooltips: {
-                    callbacks: {
-                    label: function(tooltipItem, data) {
-                       var label = data.labels[tooltipItem.index];
-                       return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
-                    }
-                 }
-                },
-                scales: {
-                    yAxes: [{
-                      scaleLabel: {
-                        display: true,
-                        labelString: "{{ default2 }}"
-                      },
-                      id: 'y-axis-0'
-                    }],
-                    xAxes: [{
-                      scaleLabel: {
-                        display: true,
-                        labelString: "{{ default1 }}"
-                      },
-                      id: 'x-axis-0'
-                    }]
-                },
-                title: {
-                    display: true,
-                    text: chartTitle,
-                    fontSize: 15
-                },
-                legend: {
-                    display: true,
-                    position: 'bottom'
-                },
-                annotation: {
-                  annotations: [{
-                    type: 'line',
-                    mode: 'horizontal',
-                    scaleID: 'y-axis-0',
-                    value: medianY,
-                    // borderColor: 'rgba(255,99,132,1)',
-                    borderColor: primaryColor,
-                    borderWidth: 2,
-                  },{
-                    type: 'line',
-                    mode: 'vertical',
-                    scaleID: 'x-axis-0',
-                    value: medianX,
-                    // borderColor: 'rgba(255,99,132,1)',
-                    borderColor: primaryColor,
-                    borderWidth: 2,
-                  }]
-                }
-            };
+     //        var options = {responsive: true, // Instruct chart js to respond nicely.
+     //            maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height 
+     //            tooltips: {
+     //                callbacks: {
+     //                label: function(tooltipItem, data) {
+     //                   var label = data.labels[tooltipItem.index];
+     //                   return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
+     //                }
+     //             }
+     //            },
+     //            scales: {
+     //                yAxes: [{
+     //                  scaleLabel: {
+     //                    display: true,
+     //                    labelString: "{{ default2 }}"
+     //                  },
+     //                  id: 'y-axis-0'
+     //                }],
+     //                xAxes: [{
+     //                  scaleLabel: {
+     //                    display: true,
+     //                    labelString: "{{ default1 }}"
+     //                  },
+     //                  id: 'x-axis-0'
+     //                }]
+     //            },
+     //            title: {
+     //                display: true,
+     //                text: chartTitle,
+     //                fontSize: 15
+     //            },
+     //            legend: {
+     //                display: true,
+     //                position: 'bottom'
+     //            },
+     //            annotation: {
+     //              annotations: [{
+     //                type: 'line',
+     //                mode: 'horizontal',
+     //                scaleID: 'y-axis-0',
+     //                value: medianY,
+     //                // borderColor: 'rgba(255,99,132,1)',
+     //                borderColor: primaryColor,
+     //                borderWidth: 1,
+     //              },{
+     //                type: 'line',
+     //                mode: 'vertical',
+     //                scaleID: 'x-axis-0',
+     //                value: medianX,
+     //                // borderColor: 'rgba(255,99,132,1)',
+     //                borderColor: primaryColor,
+     //                borderWidth: 1,
+     //              }]
+     //            }
+     //        };
 
-            var myChart = new Chart(ctx, {
-                type: 'bubble',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                    label: 'Player Data', // Name the series
-                    data: data,
-                    borderColor: secondaryColor,
-                    backgroundColor: secondaryColorTransparent,
-                    borderWidth: 2,
-                    hoverBorderWidth: 2,
-                    radius: 6,
-                    hoverRadius: 5
-                    }]
-                },
-                options: options
-            }); 
-        }
-     }   
+     //        var myChart = new Chart(ctx, {
+     //            type: 'bubble',
+     //            data: {
+     //                labels: labels,
+     //                datasets: [{
+     //                label: 'Player Data', // Name the series
+     //                data: data,
+     //                borderColor: secondaryColor,
+     //                backgroundColor: secondaryColorTransparent,
+     //                borderWidth: 0,
+     //                hoverBorderWidth: 0,
+     //                radius: 3,
+     //                hoverRadius: 5
+     //                }]
+     //            },
+     //            options: options
+     //        }); 
+     //    }
+     // }   
     </script>
      
 
     <script type="text/javascript">
-    function generateGraphWithLine(){
-        if ({{ generate_graph }} > 0) {
-            var ctx = document.getElementById("scatter").getContext('2d');
-            var lineCheckbox = document.getElementById("defaultCheck1");
-            var rsqr = {{ r_sqr|floatformat:2 }};
-            var chartTitle = getChartTitle().concat(' Regression (R\u00B2=', rsqr, ')');
-            var labels = {{ graph_labels_json|safe }};
-            var data = {{ graph_data_json|safe }};
-            var medianX = {{ median_x }};
-            var medianY = {{ median_y }};
-            var primaryColor = '#3d195b';
-            var secondaryColor = '#00ff85';
-            var primaryColorTransparent = 'rgba(61,25,91,0.5)';
-            var secondaryColorTransparent = 'rgba(0, 255, 133,0.3)';
-            var legendDisplay = true;
-            var rl = {{ rl|safe }};
-            var options = {responsive: true, // Instruct chart js to respond nicely.
-                maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
-                tooltips: {
-                    callbacks: {
-                    label: function(tooltipItem, data) {
-                       var label = data.labels[tooltipItem.index];
-                       return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
-                    }
-                 }
-                },
-                scales: {
-                    yAxes: [{
-                      scaleLabel: {
-                        display: true,
-                        labelString: "{{ default2 }}"
-                      },
-                      id: 'y-axis-0'
-                    }],
-                    xAxes: [{
-                        type: 'linear',
-                        position: 'bottom',
-                        ticks: {
-                  autoSkip: true
-                },
-                      scaleLabel: {
-                        display: true,
-                        labelString: "{{ default1 }}"
-                      },
-                      id: 'x-axis-0'
-                    }]
-                },
-                title: {
-                    display: true,
-                    text: chartTitle,
-                    fontSize: 15
-                },
-                legend: {
-                    display: legendDisplay,
-                    position: 'bottom'
-                },
-                annotation: {
-                  annotations: [{
-                    type: 'line',
-                    mode: 'horizontal',
-                    scaleID: 'y-axis-0',
-                    value: medianY,
-                    // borderColor: 'rgba(255,99,132,1)',
-                    borderColor: primaryColorTransparent,
-                    borderWidth: 2,
-                  },{
-                    type: 'line',
-                    mode: 'vertical',
-                    scaleID: 'x-axis-0',
-                    value: medianX,
-                    // borderColor: 'rgba(255,99,132,1)',
-                    borderColor: primaryColorTransparent,
-                    borderWidth: 2,
-                  }]
-                }
-            };
+    // function generateGraphWithLine(){
+    //     if ({{ generate_graph }} > 0) {
+    //         var ctx = document.getElementById("scatter").getContext('2d');
+    //         // var lineCheckbox = document.getElementById("defaultCheck1");
+    //         var rsqr = {{ r_sqr|floatformat:2 }};
+    //         var chartTitle = getChartTitle().concat(' Regression (R\u00B2=', rsqr, ')');
+    //         var labels = {{ graph_labels_json|safe }};
+    //         var data = {{ graph_data_json|safe }};
+    //         var medianX = {{ median_x }};
+    //         var medianY = {{ median_y }};
+    //         var primaryColor = '#3d195b';
+    //         var secondaryColor = '#00ff85';
+    //         var primaryColorTransparent = 'rgba(61,25,91,0.5)';
+    //         var secondaryColorTransparent = 'rgba(0, 255, 133,0.3)';
+    //         var legendDisplay = true;
+    //         var rl = {{ rl|safe }};
+    //         var options = {responsive: true, // Instruct chart js to respond nicely.
+    //             maintainAspectRatio: false, // Add to prevent default behaviour of full-width/height
+    //             tooltips: {
+    //                 callbacks: {
+    //                 label: function(tooltipItem, data) {
+    //                    var label = data.labels[tooltipItem.index];
+    //                    return label + ': (' + tooltipItem.xLabel + ', ' + tooltipItem.yLabel + ')';
+    //                 }
+    //              }
+    //             },
+    //             scales: {
+    //                 yAxes: [{
+    //                   scaleLabel: {
+    //                     display: true,
+    //                     labelString: "{{ default2 }}"
+    //                   },
+    //                   id: 'y-axis-0'
+    //                 }],
+    //                 xAxes: [{
+    //                     type: 'linear',
+    //                     position: 'bottom',
+    //                     ticks: {
+    //               autoSkip: true
+    //             },
+    //                   scaleLabel: {
+    //                     display: true,
+    //                     labelString: "{{ default1 }}"
+    //                   },
+    //                   id: 'x-axis-0'
+    //                 }]
+    //             },
+    //             title: {
+    //                 display: true,
+    //                 text: chartTitle,
+    //                 fontSize: 15
+    //             },
+    //             legend: {
+    //                 display: legendDisplay,
+    //                 position: 'bottom'
+    //             },
+    //             annotation: {
+    //               annotations: [{
+    //                 type: 'line',
+    //                 mode: 'horizontal',
+    //                 scaleID: 'y-axis-0',
+    //                 value: medianY,
+    //                 // borderColor: 'rgba(255,99,132,1)',
+    //                 borderColor: primaryColorTransparent,
+    //                 borderWidth: 1,
+    //               },{
+    //                 type: 'line',
+    //                 mode: 'vertical',
+    //                 scaleID: 'x-axis-0',
+    //                 value: medianX,
+    //                 // borderColor: 'rgba(255,99,132,1)',
+    //                 borderColor: primaryColorTransparent,
+    //                 borderWidth: 1,
+    //               }]
+    //             }
+    //         };
 
-            var myChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        type: 'line',
-                        label: 'Expected'.concat(' ', '{{ metric1_humanized }}'),
-                        data: rl,
-                        fill: false,
-                        backgroundColor: "rgba(218,83,79, .7)",
-                        borderColor: "rgba(218,83,79, .7)",
-                        pointRadius: 0
+    //         var myChart = new Chart(ctx, {
+    //             type: 'line',
+    //             data: {
+    //                 labels: labels,
+    //                 datasets: [{
+    //                     type: 'line',
+    //                     label: 'Expected'.concat(' ', '{{ metric1_humanized }}'),
+    //                     data: rl,
+    //                     fill: false,
+    //                     backgroundColor: "rgba(218,83,79, .7)",
+    //                     borderColor: "rgba(218,83,79, .7)",
+    //                     pointRadius: 0,
+    //                     borderWidth: 1
 
-                    }, {
-                        type: 'bubble',
-                        label: 'Player Data',
-                        data: data,
-                        borderColor: secondaryColor,
-                        backgroundColor: secondaryColorTransparent,
-                        borderWidth: 2,
-                        hoverBorderWidth: 2,
-                        radius: 6,
-                        hoverRadius: 5
-                    }]
-                },
-                options: options
-            });
-        }  
-    }
+    //                 }, {
+    //                     type: 'bubble',
+    //                     label: 'Player Data',
+    //                     data: data,
+    //                     borderColor: secondaryColor,
+    //                     backgroundColor: secondaryColorTransparent,
+    //                     borderWidth: 0,
+    //                     hoverBorderWidth: 0,
+    //                     radius: 3,
+    //                     hoverRadius: 5
+    //                 }]
+    //             },
+    //             options: options
+    //         });
+    //     }  
+    // }
     </script>
 
     <script type="text/javascript">
-    function chooseGraph(){
-        var chkbx = document.getElementById("defaultCheck1")
-        document.getElementById("mainGraph").innerHTML = "";
-        var div = document.createElement("div");
-        var div2 = document.createElement("div");
-        div.className = "p-2 row justify-content-center";
-        div2.className = "col-12";
-        var canv = document.createElement('canvas');
-        canv.height = 350;
-        div2.appendChild(canv);
-        div.appendChild(div2);
-        if(chkbx.checked == true){
-           canv.id = "scatter";
-           document.getElementById("mainGraph").appendChild(div);            
-        } else {
-           canv.id = "myChartNoLine";
-           document.getElementById("mainGraph").appendChild(div);            
-        }
+    // function chooseGraph(){
+    //     // var chkbx = document.getElementById("defaultCheck1")
+    //     document.getElementById("mainGraph").innerHTML = "";
+    //     var div = document.createElement("div");
+    //     var div2 = document.createElement("div");
+    //     div.className = "p-2 row justify-content-center";
+    //     div2.className = "col-12";
+    //     var canv = document.createElement('canvas');
+    //     canv.height = 350;
+    //     div2.appendChild(canv);
+    //     div.appendChild(div2);
+    //     if(chkbx.checked == true){
+    //        canv.id = "scatter";
+    //        document.getElementById("mainGraph").appendChild(div);            
+    //     } else {
+    //        canv.id = "myChartNoLine";
+    //        document.getElementById("mainGraph").appendChild(div);            
+    //     }
         
-        if(chkbx.checked == true){
-           generateGraphWithLine();
-        } else {
-           generateGraphNoLine();
-        }
+    //     if(chkbx.checked == true){
+    //        generateGraphWithLine();
+    //     } else {
+    //        generateGraphNoLine();
+    //     }
         
-    }
+    // }
     </script>
 
      {% comment %}

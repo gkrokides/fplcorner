@@ -468,6 +468,41 @@ class Player_Last_Six_Stat_Manager(models.Manager):
             })
         return lst
 
+    def get_players_by_position(self, position, exclude_low_minute_players=False):
+        # metric = "-" + metric
+        players_for_current_season = self.filter(season__is_current=True)
+        if exclude_low_minute_players:
+            players_for_current_season = self.filter(season__is_current=True, limited_minutes=False)
+
+        players = players_for_current_season.filter(player__element_type__singular_name_short=position)
+        final_data = []
+        for p in players:
+            final_data.append({
+                'player_id': p.player_id,
+                'first_name': p.player.first_name,
+                'last_name': p.player.second_name,
+                'web_name': p.player.web_name,
+                'now_cost': p.player.now_cost / 10,
+                'total_points': p.total_points,
+                # 'points_per_game': player.points_per_game,
+                'bonus': p.bonus,
+                'bps': p.bps,
+                'goals_scored': p.goals_scored,
+                'assists': p.assists,
+                'goals_conceded': p.goals_conceded,
+                'clean_sheets': p.clean_sheets,
+                # 'saves': player.saves,
+                'form': p.player.form,  # look at this
+                # 'value_form': player.value_form,
+                # 'value_season': player.value_season,
+                'influence': p.influence,
+                'creativity': p.creativity,
+                'threat': p.threat,
+                'ict_index': p.ict_index,
+                'selected_by_percent': p.player.selected_by_percent  # look at this
+            })
+        return final_data
+
 
 class Player_Last_Six_Stat(models.Model):
     player = models.ForeignKey('Player', blank=True, null=True)
