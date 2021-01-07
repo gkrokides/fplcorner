@@ -1,14 +1,39 @@
-:root {
-	--primary-color: #3d195b;
-	--secondary-color: #00ff85;
-	--primary-color-transparent: rgba(61,25,91,0.4);
-	--secondary-color-transparent: rgba(0, 255, 133,0.3);
-}
+/*:root {*/
+	/*--primary-color: #3d195b;*/
+	/*--secondary-color: #00ff85;*/
+	/*--primary-color-transparent: rgba(61,25,91,0.4);*/
+	/*--secondary-color-transparent: rgba(0, 255, 133,0.3);*/
+/*}*/
 
+/*:root {*/
+    /*--primary-color: #000000;*/
+    /*--secondary-color: #f3ca20;*/
+    /*--primary-color-transparent: rgba(243, 202, 32, 0.3);*/
+    /*--secondary-color-transparent: rgba(243, 202, 32,0.4);*/
+/*}*/
+
+:root {
+    --primary-color:  #1e3d59;
+    --secondary-color: #ff6e40;
+    /*--third-color: #f5f0e1;*/
+    --third-color: #f8f8ff;
+
+    
+    
+}
 
 body {
 	padding-bottom: 5px;
-	background-color: var(--primary-color-transparent);
+	/*background-color: var(--primary-color-transparent);*/
+    background-color: var(--third-color);
+
+    
+}
+
+.fplplain{
+    background-color: var(--third-color);
+    color: var(--primary-color);
+    /*border: 2px solid var(--secondary-color);*/
 }
 
 .footerbackground {
@@ -18,6 +43,11 @@ body {
 .fplbackground{
 	background-color: var(--primary-color);
 	color: var(--secondary-color);
+}
+
+.fplbackground-light{
+    background-color: var(--primary-color);
+    color: var(--third-color);
 }
 
 .fplbackground-inverse{

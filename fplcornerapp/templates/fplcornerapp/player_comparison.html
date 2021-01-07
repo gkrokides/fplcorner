@@ -34,8 +34,8 @@
           </div>
         </div>
         <div class="row justify-content-center">
-            <div class="alert alert-light mt-4 mb-4 p-1" role="alert">
-                All stats per 90 mins and calculated over the last 6 games
+            <div class="alert fplbackground-light mt-4 mb-4 p-1" role="alert">
+                *Stats calculated per 90 mins and over the last 6 games
             </div>
         </div>    
     </div>
@@ -91,11 +91,11 @@
             var playerOneSelection = getPlayerOneData();
             var playerTwoSelection = getPlayerTwoData();
             var gdata = {{ graph_data_json|safe }};
-            var primaryColor = '#3d195b';
-            var secondaryColor = '#00ff85';
-            var primaryColorTransparent = 'rgba(61,25,91,0.2)';
-            var secondaryColorTransparent = 'rgba(0, 255, 133,0.3)';
-            var graphFontColor = '#ffffff'
+            var primaryColor = '#1e3d59';
+            var secondaryColor = '#ff6e40';
+            var primaryColorTransparent = 'rgba(30, 61, 89,0.2)';
+            var secondaryColorTransparent = 'rgba(255, 110, 64,0.3)';
+            var graphFontColor = primaryColor
 
             myRadarChart = new Chart(document.getElementById("comparison"), {
             type: 'radar',
