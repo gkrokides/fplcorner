@@ -154,11 +154,13 @@ def email(request):
         if form.is_valid():
             name = form.cleaned_data['name']
             subject = form.cleaned_data['subject']
-            from_email = form.cleaned_data['email']
+            sender = form.cleaned_data['email']
+            from_email = 'support@fplcorner.com'
             message = form.cleaned_data['message']
-            message = message + '\n ' + '\n Sent from: ' + name + '\n email: ' + from_email + '\n site: fplcorner.com '
+            message = message + '\n ' + '\n Sent from: ' + name + '\n email: ' + sender + '\n site: fplcorner.com '
             try:
-                send_mail(subject, message, from_email, ['georgekrokides@gmail.com'])
+                # send_mail(subject, message, from_email, ['georgekrokides@gmail.com'])
+                send_mail(subject, message, from_email, ['support@fplcorner.com'])
             except BadHeaderError:
                 return HttpResponse('Invalid header found.')
             return redirect('success')
@@ -167,28 +169,3 @@ def email(request):
 
 def success(request):
     return render(request, 'fplcornerapp/success.html')
-
-
-# def fstats(request):
-#     allplayers = Player.objects.values_list('id', 'first_name', 'second_name')
-#     selected_data = []
-#     final_data = []
-#     if request.method == "POST":
-#         selected_player_id = request.POST["player"]
-#         lookback = int(request.POST["num_input"]) + 1
-#         final_data = Player_Fixture_Stat.objects.get_player_performance_per_gw(selected_player_id, lookback)
-
-#     return render(request, 'fplcornerapp/fstats.html', {
-#         'allplayers': allplayers,
-#         'selected_data': selected_data,
-#         'final_data': final_data
-#     })
-
-
-# def test(request):
-#     return render(request, 'fplcornerapp/test.html')
-
-
-# def mstats(request):
-#     fixtures = Fixture.objects.all().order_by('-kickoff_time')
-#     return render(request, 'fplcornerapp/mstats.html', {'fixtures': fixtures})

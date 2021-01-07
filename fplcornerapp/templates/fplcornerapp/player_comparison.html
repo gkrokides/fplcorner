@@ -96,10 +96,6 @@
             var primaryColorTransparent = 'rgba(61,25,91,0.2)';
             var secondaryColorTransparent = 'rgba(0, 255, 133,0.3)';
             var graphFontColor = '#ffffff'
-            // var primaryColor = '#afd275';
-            // var secondaryColor = '#e7717d';
-            // var primaryColorTransparent = 'rgba(175, 210, 117, 0.2)';
-            // var secondaryColorTransparent = 'rgba(231, 113, 125, 0.2)';
 
             myRadarChart = new Chart(document.getElementById("comparison"), {
             type: 'radar',
@@ -109,10 +105,6 @@
                 {
                   label: playerOneSelection["web_name"],
                   fill: true,
-                  // backgroundColor: "rgba(41, 73, 233, 0.21)",
-                  // borderColor: "#2196f3",
-                  // pointBorderColor: "#fff",
-                  // pointBackgroundColor: "rgba(179,181,198,1)",
                   backgroundColor: primaryColorTransparent,
                   borderColor: primaryColor,
                   pointBorderColor: primaryColorTransparent,
@@ -121,10 +113,6 @@
                 }, {
                   label: playerTwoSelection["web_name"],
                   fill: true,
-                  // backgroundColor: "rgba(255,99,132,0.2)",
-                  // borderColor: "rgba(255,99,132,1)",
-                  // pointBorderColor: "#fff",
-                  // pointBackgroundColor: "rgba(255,99,132,1)",
                   backgroundColor: secondaryColorTransparent,
                   borderColor: secondaryColor,
                   pointBorderColor: secondaryColorTransparent,
