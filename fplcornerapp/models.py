@@ -373,7 +373,7 @@ class Player_Weekly_Stat_Manager(models.Manager):
 
         limited_minutes = True
         if player_total_minutes['total_games'] >= 0:
-            if player_total_minutes['minutes'] / player_total_minutes['total_games'] >= globalsettings.MIN_MINUTES_PER_GAME:
+            if player_total_minutes['minutes'] / float(player_total_minutes['total_games']) >= globalsettings.MIN_MINUTES_PER_GAME:
                 limited_minutes = False
 
         dictt = {
