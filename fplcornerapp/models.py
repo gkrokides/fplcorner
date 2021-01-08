@@ -372,7 +372,7 @@ class Player_Weekly_Stat_Manager(models.Manager):
         player_total_minutes = {key: 0 if value is None else value for (key, value) in player_total_minutes.iteritems()}
 
         limited_minutes = True
-        if player_total_minutes['minutes'] >= 0:
+        if player_total_minutes['minutes'] > 0:
             if player_total_minutes['minutes'] / player_total_minutes['total_games'] >= globalsettings.MIN_MINUTES_PER_GAME:
                 limited_minutes = False
 
@@ -391,7 +391,7 @@ class Player_Weekly_Stat_Manager(models.Manager):
         final_list = []
 
         for player in current_season_players:
-            print(player.pk)
+            # print(player.pk)
             dict_i = self.get_player_stats_for_last_n_games(player.pk, 6)
             final_list.append(dict_i)
 
