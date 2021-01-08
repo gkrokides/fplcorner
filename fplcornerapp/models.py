@@ -372,6 +372,9 @@ class Player_Weekly_Stat_Manager(models.Manager):
         if player_total_minutes['minutes'] / player_total_minutes['total_games'] >= globalsettings.MIN_MINUTES_PER_GAME:
             limited_minutes = False
 
+        # replace None values with 0 in the dict.
+        player_total_minutes = {key: 0 if value is None else value for (key, value) in player_total_minutes.iteritems()}
+
         dictt = {
             'player': player_obj,
             'season': season_obj,
