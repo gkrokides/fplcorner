@@ -390,6 +390,7 @@ class Player_Weekly_Stat_Manager(models.Manager):
         final_list = []
 
         for player in current_season_players:
+            print(player.pk)
             dict_i = self.get_player_stats_for_last_n_games(player.pk, 6)
             final_list.append(dict_i)
 
