@@ -121,10 +121,14 @@
             var data = {{ graph_data_json|safe }};
             var medianX = {{ median_x }};
             var medianY = {{ median_y }};
-            var primaryColor = '#1e3d59';
-            var secondaryColor = '#ff6e40';
-            var primaryColorTransparent = 'rgba(30, 61, 89,0.5)';
-            var secondaryColorTransparent = 'rgba(255, 110, 64,0.3)';
+            var primaryColor = cssVar('--primary-color');
+            var secondaryColor = cssVar('--secondary-color');
+            var primaryColorTransparent = cssVar('--primary-color-transparent');
+            var secondaryColorTransparent = cssVar('--secondary-color-transparent');
+            // var primaryColor = '#1e3d59';
+            // var secondaryColor = '#ff6e40';
+            // var primaryColorTransparent = 'rgba(30, 61, 89,0.5)';
+            // var secondaryColorTransparent = 'rgba(255, 110, 64,0.3)';
             var legendDisplay = true;
             var rl = {{ rl|safe }};
             var options = {responsive: true, // Instruct chart js to respond nicely.
@@ -173,14 +177,14 @@
                     mode: 'horizontal',
                     scaleID: 'y-axis-0',
                     value: medianY,
-                    borderColor: primaryColorTransparent,
+                    borderColor: primaryColor,
                     borderWidth: 1,
                   },{
                     type: 'line',
                     mode: 'vertical',
                     scaleID: 'x-axis-0',
                     value: medianX,
-                    borderColor: primaryColorTransparent,
+                    borderColor: primaryColor,
                     borderWidth: 1,
                   }]
                 }
@@ -195,10 +199,10 @@
                         label: 'Expected'.concat(' ', '{{ metric1_humanized }}'),
                         data: rl,
                         fill: false,
-                        backgroundColor: "rgba(218,83,79, .7)",
-                        borderColor: "rgba(218,83,79, .7)",
+                        backgroundColor: secondaryColor,
+                        borderColor: secondaryColor,
                         pointRadius: 0,
-                        borderWidth: 1.5
+                        borderWidth: 1
 
                     }, {
                         type: 'bubble',

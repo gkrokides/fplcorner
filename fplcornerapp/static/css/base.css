@@ -12,13 +12,23 @@
     /*--secondary-color-transparent: rgba(243, 202, 32,0.4);*/
 /*}*/
 
+/*:root {*/
+    /*--primary-color:  #1e3d59;*/
+    /*--secondary-color: #ff6e40;*/
+    /*--third-color: #f5f0e1;*/
+    /*--third-color: #f8f8ff;*/
+     /*--primary-color-transparent: rgba(30, 61, 89, 0.2);*/
+    /*--secondary-color-transparent: rgba(255, 110, 64,0.3);*/
+    
+/*}*/
+
 :root {
-    --primary-color:  #1e3d59;
-    --secondary-color: #ff6e40;
+    --primary-color:  #4a536b;
+    --secondary-color: #ff9a8d;
     /*--third-color: #f5f0e1;*/
     --third-color: #f8f8ff;
-
-    
+     --primary-color-transparent: rgba(74, 83, 107, 0.2);
+    --secondary-color-transparent: rgba(255, 154, 141, 0.3);
     
 }
 
@@ -104,11 +114,11 @@ body {
 }
 
 .custom-toggler .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(0, 255, 133)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgb(255, 154, 141)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
 }
 
 .custom-toggler.navbar-toggler {
-  border-color: rgb(255,102,203);
+  border-color: var(--secondary-color);
 }
 
  footer {

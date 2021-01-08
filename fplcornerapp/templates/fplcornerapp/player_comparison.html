@@ -91,10 +91,14 @@
             var playerOneSelection = getPlayerOneData();
             var playerTwoSelection = getPlayerTwoData();
             var gdata = {{ graph_data_json|safe }};
-            var primaryColor = '#1e3d59';
-            var secondaryColor = '#ff6e40';
-            var primaryColorTransparent = 'rgba(30, 61, 89,0.2)';
-            var secondaryColorTransparent = 'rgba(255, 110, 64,0.3)';
+            var primaryColor = cssVar('--primary-color');
+            var secondaryColor = cssVar('--secondary-color');
+            var primaryColorTransparent = cssVar('--primary-color-transparent');
+            var secondaryColorTransparent = cssVar('--secondary-color-transparent');
+            // var primaryColor = '#1e3d59';
+            // var secondaryColor = '#ff6e40';
+            // var primaryColorTransparent = 'rgba(30, 61, 89,0.2)';
+            // var secondaryColorTransparent = 'rgba(255, 110, 64,0.3)';
             var graphFontColor = primaryColor
 
             myRadarChart = new Chart(document.getElementById("comparison"), {
