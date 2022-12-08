@@ -1,7 +1,7 @@
 altgraph==0.10.2
 bdist-mpkg==0.5.0
 bonjour-py==0.3
-certifi==2018.10.15
+certifi==2022.12.7
 chardet==3.0.4
 dicts==0.3.1
 dj-database-url==0.4.0
